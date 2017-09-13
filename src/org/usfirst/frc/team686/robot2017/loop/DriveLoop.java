@@ -87,8 +87,8 @@ public class DriveLoop implements Loop
 		rMotorMaster.configEncoderCodesPerRev(Constants.kQuadEncoderCodesPerRev);	// Talon SRX Software Reference Manual Section 17.2 API Unit Scaling
 		lMotorMaster.setInverted(false);
 		rMotorMaster.setInverted(false);
-		lMotorMaster.reverseSensor(false);
-		rMotorMaster.reverseSensor(false);
+		lMotorMaster.reverseSensor(true);
+		rMotorMaster.reverseSensor(true);
 		lMotorMaster.reverseOutput(false);
 		rMotorMaster.reverseOutput(false);
 		lMotorSlave1.reverseOutput(false);
@@ -288,8 +288,8 @@ public class DriveLoop implements Loop
 	}
 
 	// Talon SRX reports position in rotations while in closed-loop Position mode
-	private static double rotationsToInches(double _rotations) {	return _rotations * Constants.kDriveWheelCircumInches; }
-	private static double inchesToRotations(double _inches) { return _inches / Constants.kDriveWheelCircumInches; }
+	private static double rotationsToInches(double _rotations) {	return _rotations * Constants.kQuadEncoderGain * Constants.kDriveWheelCircumInches; }
+	private static double inchesToRotations(double _inches) { return _inches / (Constants.kQuadEncoderGain * Constants.kDriveWheelCircumInches); }
 
 	// Talon SRX reports speed in RPM while in closed-loop Speed mode
 	private static double rpmToInchesPerSecond(double _rpm) { return rotationsToInches(_rpm) / 60.0; }

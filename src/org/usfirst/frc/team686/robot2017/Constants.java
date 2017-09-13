@@ -1,5 +1,6 @@
 package org.usfirst.frc.team686.robot2017;
 
+
 /**
  * Attribution: adapted from FRC Team 254
  */
@@ -20,27 +21,31 @@ public class Constants extends ConstantsBase
     // Front Bumper
     public static double kFrontBumperX = 18;	// position of front bumper with respect to robot center of rotation
     
-	// Wheels
-    public static double kDriveWheelCircumInches = 13.00;
+ // Wheels
+    public static double kDriveWheelCircumInches = 13.250;
     public static double kDriveWheelDiameterInches = kDriveWheelCircumInches / Math.PI;
-    public static double kTrackLengthInches = 9.625;
-    public static double kTrackWidthInches = 25.125;
+    public static double kTrackLengthInches = 12.500;
+    public static double kTrackWidthInches = 23.000;
     public static double kTrackEffectiveDiameter = (kTrackWidthInches * kTrackWidthInches + kTrackLengthInches * kTrackLengthInches) / kTrackWidthInches;
     public static double kTrackScrubFactor = 0.5;
 
     // Wheel Encoder
-    public static int    kQuadEncoderCodesPerRev = 256;
-    public static int    kQuadEncoderPulsesPerRev = 4*kQuadEncoderCodesPerRev;
+    public static double kQuadEncoderGain = ( 30.0 / 54.0 ) * ( 12.0 / 36.0 );	// number of drive shaft rotations per encoder shaft rotation
+																				// 54:30 drive shaft --> 3rd stage, 36:12 3rd stage --> encoder shaft 
+    
+    public static int    kQuadEncoderCodesPerRev = 64;
+    public static int    kQuadEncoderPulsesPerRev = (int)(4*kQuadEncoderCodesPerRev / kQuadEncoderGain);
     public static double kQuadEncoderStatusFramePeriod = 0.100;	// 100ms
     
     // CONTROL LOOP GAINS
-    public static double kFullThrottleRPM = 520;	// measured max RPM using NI web interface
+    public static double kFullThrottleRPM = 4500 * kQuadEncoderGain;	// high gear: measured max RPM using NI web interface
     public static double kFullThrottleEncoderPulsePer100ms = kFullThrottleRPM / 60.0 * kQuadEncoderStatusFramePeriod * kQuadEncoderPulsesPerRev; 
+    
     
     // PID gains for drive velocity loop (sent to Talon)
     // Units: error is 4*256 counts/rev. Max output is +/- 1023 units.
     public static double kDriveVelocityKp = 1.0;
-    public static double kDriveVelocityKi = 0.0;
+    public static double kDriveVelocityKi = 0.001;
     public static double kDriveVelocityKd = 6.0;
     public static double kDriveVelocityKf = 1023.0 / kFullThrottleEncoderPulsePer100ms;
     public static int    kDriveVelocityIZone = 0;
@@ -143,6 +148,17 @@ public class Constants extends ConstantsBase
     public static int kXboxRTriggerAxis = 3;
     public static int kXboxRStickXAxis  = 4;
     public static int kXboxRStickYAxis  = 5;
+    
+    // Joystick Mappings
+    public static int kLowGearButton 		= Constants.kXboxButtonY;
+    public static int kForwardIntakeButton 	= Constants.kXboxButtonB;
+    public static int kReverseIntakeButton 	= Constants.kXboxButtonA;
+    public static int kClimbButton 			= Constants.kXboxButtonRB;
+    public static int kReverseClimbButton 	= Constants.kXboxButtonLB;
+    public static int kBallTrayButton 		= Constants.kXboxButtonX;
+    
+    public static int kGearIntakeAxis		= Constants.kXboxRStickYAxis;
+    
 
     // Relay Ports
     public static int kLedRelayPort = 0;
