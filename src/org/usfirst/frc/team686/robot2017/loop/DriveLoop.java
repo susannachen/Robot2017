@@ -264,7 +264,7 @@ public class DriveLoop implements Loop
         	case PercentVbus:
         		// DriveCommand given in range +/-1, with 1 representing full throttle
         		lMotorMaster.set(Constants.lMotorPolarity * lMotorCtrl);
-        		rMotorMaster.set(Constants.rMotorPolarity * rMotorCtrl);
+        		rMotorMaster.set(Constants.rMotorPolarity * rMotorCtrl); 
         		break;
 
         	case Position:

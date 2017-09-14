@@ -3,6 +3,7 @@ package org.usfirst.frc.team686.robot2017;
 import java.util.TimeZone;
 
 import org.usfirst.frc.team686.robot2017.auto.AutoModeExecuter;
+import org.usfirst.frc.team686.robot2017.auto.modes.DriveStraightMode;
 import org.usfirst.frc.team686.robot2017.command_status.DriveCommand;
 import org.usfirst.frc.team686.robot2017.command_status.DriveStatus;
 import org.usfirst.frc.team686.robot2017.command_status.RobotState;
@@ -182,10 +183,10 @@ public class Robot extends IterativeRobot {
     		if(autoModeExecuter != null){
     			autoModeExecuter.stop();
     		}
-    		autoModeExecuter.stop();
+    		autoModeExecuter = null;
     		
     		autoModeExecuter = new AutoModeExecuter();
-    		//autoModeExecuter.setAutoMode(smartDashboardInteractions.getAutoModeSelection());
+    		autoModeExecuter.setAutoMode(new DriveStraightMode(0, false));//setAutoMode(smartDashboardInteractions.getAutoModeSelection());
     		
     		setInitialPose(autoModeExecuter.getAutoMode().getInitialPose());
     		

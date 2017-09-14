@@ -1,6 +1,7 @@
 package org.usfirst.frc.team686.robot2017;
 
 import org.usfirst.frc.team686.robot2017.auto.AutoModeBase;
+import org.usfirst.frc.team686.robot2017.auto.modes.DriveStraightMode;
 import org.usfirst.frc.team686.robot2017.auto.modes.StandStillMode;
 import org.usfirst.frc.team686.robot2017.lib.joystick.ArcadeDriveJoystick;
 import org.usfirst.frc.team686.robot2017.lib.joystick.JoystickControlsBase;
@@ -30,12 +31,12 @@ public class SmartDashboardInteractions
     
     enum AutoModeOption 
     {
-        PLACE_PEG("Place Peg"),
+        //PLACE_PEG("Place Peg"),
         STAND_STILL("Stand Still"),
-        DRIVE_STRAIGHT("Drive Straight"),
-        SQUARE_PATTERN("Square Pattern"),
-    	POINT_TURN_TEST("Point Turn Test"),
-    	VISION_DELAY_CALIB("Vision Delay Calibration");
+        DRIVE_STRAIGHT("Drive Straight");
+        //SQUARE_PATTERN("Square Pattern"),
+    	//POINT_TURN_TEST("Point Turn Test"),
+    	//VISION_DELAY_CALIB("Vision Delay Calibration");
     	
         public final String name;
 
@@ -67,15 +68,15 @@ public class SmartDashboardInteractions
     
     enum JoystickOption 
     {
-        ARCADE_DRIVE("Arcade Drive"),
-        TRIGGER_DRIVE("Trigger Drive"),				// works for Xbox controller and Xbox steering wheel
+        ARCADE_DRIVE("Arcade Drive");
+        /*TRIGGER_DRIVE("Trigger Drive"),				// works for Xbox controller and Xbox steering wheel
         TANK_DRIVE("Tank Drive"),
         CHEESY_ARCADE_DRIVE("Cheesy Arcade Drive"),
         CHEESY_TRIGGER_DRIVE("Cheesy Trigger Drive"),
         CHEESY_2STICK_DRIVE("Cheesy Two-Stick Drive"),
         ADAM_ARCADE_DRIVE("Adam Arcade Drive"),
-        POLAR_ARCADE_DRIVE("Polar Arcade Drive");
-
+        POLAR_ARCADE_DRIVE("Polar Arcade Drive")
+		*/
         public final String name;
 
         JoystickOption(String name) {
@@ -88,11 +89,11 @@ public class SmartDashboardInteractions
     {
     	autoModeChooser = new SendableChooser<AutoModeOption>();
     	autoModeChooser.addObject(AutoModeOption.STAND_STILL.toString(),    AutoModeOption.STAND_STILL);
-    	autoModeChooser.addDefault( AutoModeOption.PLACE_PEG.toString(),      AutoModeOption.PLACE_PEG);
+    	//autoModeChooser.addDefault( AutoModeOption.PLACE_PEG.toString(),      AutoModeOption.PLACE_PEG);
     	autoModeChooser.addObject( AutoModeOption.DRIVE_STRAIGHT.toString(), AutoModeOption.DRIVE_STRAIGHT);
-    	autoModeChooser.addObject( AutoModeOption.SQUARE_PATTERN.toString(), AutoModeOption.SQUARE_PATTERN);
-    	autoModeChooser.addObject( AutoModeOption.POINT_TURN_TEST.toString(), AutoModeOption.POINT_TURN_TEST);
-    	autoModeChooser.addObject( AutoModeOption.VISION_DELAY_CALIB.toString(), AutoModeOption.VISION_DELAY_CALIB);
+    	//autoModeChooser.addObject( AutoModeOption.SQUARE_PATTERN.toString(), AutoModeOption.SQUARE_PATTERN);
+    	//autoModeChooser.addObject( AutoModeOption.POINT_TURN_TEST.toString(), AutoModeOption.POINT_TURN_TEST);
+    	//autoModeChooser.addObject( AutoModeOption.VISION_DELAY_CALIB.toString(), AutoModeOption.VISION_DELAY_CALIB);
     	SmartDashboard.putData("Auto Mode Chooser", autoModeChooser);
     	
     	startPositionChooser = new SendableChooser<AutoStartOption>();
@@ -108,14 +109,14 @@ public class SmartDashboardInteractions
     	
     	joystickModeChooser = new SendableChooser<JoystickOption>();
     	joystickModeChooser.addDefault(JoystickOption.ARCADE_DRIVE.toString(),        JoystickOption.ARCADE_DRIVE);
-    	joystickModeChooser.addObject(JoystickOption.TRIGGER_DRIVE.toString(),        JoystickOption.TRIGGER_DRIVE);
+    	/*joystickModeChooser.addObject(JoystickOption.TRIGGER_DRIVE.toString(),        JoystickOption.TRIGGER_DRIVE);
     	joystickModeChooser.addObject(JoystickOption.TANK_DRIVE.toString(), 	      JoystickOption.TANK_DRIVE);
      	joystickModeChooser.addObject(JoystickOption.CHEESY_ARCADE_DRIVE.toString(),  JoystickOption.CHEESY_ARCADE_DRIVE);
     	joystickModeChooser.addObject(JoystickOption.CHEESY_TRIGGER_DRIVE.toString(), JoystickOption.CHEESY_TRIGGER_DRIVE);
     	joystickModeChooser.addObject(JoystickOption.CHEESY_2STICK_DRIVE.toString(),  JoystickOption.CHEESY_2STICK_DRIVE);
     	joystickModeChooser.addObject(JoystickOption.ADAM_ARCADE_DRIVE.toString(),    JoystickOption.ADAM_ARCADE_DRIVE);
     	joystickModeChooser.addObject(JoystickOption.POLAR_ARCADE_DRIVE.toString(),   JoystickOption.POLAR_ARCADE_DRIVE);
-    	SmartDashboard.putData("Joystick Chooser", joystickModeChooser);
+    	*/SmartDashboard.putData("Joystick Chooser", joystickModeChooser);
     	
      }
     
@@ -135,8 +136,8 @@ public class SmartDashboardInteractions
         //	boolean isShooting = ((int)autoShootChooser.getSelected() == 1);
 		//	return new AutoPlacePegMode(selLane, isShooting);
 		
-    	//case DRIVE_STRAIGHT:
-		//	return new DriveStraightMode(selLane, false);
+    	case DRIVE_STRAIGHT:
+			return new DriveStraightMode(selLane, false);
 			
     	//case SQUARE_PATTERN:
     	//	return new SquarePatternMode(selLane, false);

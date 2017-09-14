@@ -119,8 +119,8 @@ public class Constants extends ConstantsBase
 
     // WPILib doesn't handle drive motor reversal correctly, so we'll do it with these flags
 	// +1 if not reversed, -1 if reversed
-	public static final int lMotorPolarity = +1;
-	public static final int rMotorPolarity = -1;
+	public static final int lMotorPolarity = -1;
+	public static final int rMotorPolarity = 1;
 	
 	//Climb motor
 	public static int kClimbMotorTalonId = 4;
