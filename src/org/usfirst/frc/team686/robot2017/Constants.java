@@ -18,10 +18,12 @@ public class Constants extends ConstantsBase
     public static double kLoopDt = 0.01;
     public static double kDriveWatchdogTimerThreshold = 0.500;    
     
-    // Front Bumper
-    public static double kFrontBumperX = 18;	// position of front bumper with respect to robot center of rotation
+    // Bumpers
+    public static double kCenterToFrontBumper = 18.0;	// position of front bumper with respect to robot center of rotation
+    public static double kCenterToRearBumper = 18.0;	// position of rear bumper with respect to robot center of rotation
+    public static double kCenterToSideBumper = 18.0;	// position of side bumper with respect to robot center of rotation
     
- // Wheels
+    // Wheels
     public static double kDriveWheelCircumInches = 13.250;
     public static double kDriveWheelDiameterInches = kDriveWheelCircumInches / Math.PI;
     public static double kTrackLengthInches = 12.500;
@@ -93,7 +95,7 @@ public class Constants extends ConstantsBase
     public static double kVisionMaxAccel  = 48.0; // inches/sec^2		
     public static double kTargetWidthInches = 10.25;
     public static double kPegTargetDistanceThresholdFromBumperInches = 18;		// inches to stop from target, measured from front bumper
-    public static double kPegTargetDistanceThresholdFromCameraInches = kFrontBumperX - kCameraPoseX + kPegTargetDistanceThresholdFromBumperInches;
+    public static double kPegTargetDistanceThresholdFromCameraInches = kCenterToFrontBumper - kCameraPoseX + kPegTargetDistanceThresholdFromBumperInches;
     public static double kVisionCompletionTolerance = 1.0; 
     public static double kVisionMaxDistanceInches = 240;		// ignore targets greater than this distance
     public static double kVisionLookaheadDist = 24.0;	// inches

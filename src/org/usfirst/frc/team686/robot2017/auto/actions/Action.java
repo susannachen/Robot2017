@@ -7,7 +7,7 @@ import org.usfirst.frc.team686.robot2017.lib.util.DataLogger;
  * by an autonomous action, called by the method runAction in AutoModeBase (or
  * more commonly in autonomous modes that extend AutoModeBase)
  *
- * @see org.team686.simsbot.auto.AutoModeBase#runAction
+ * @see org.usfirst.frc.team686.robot2017.auto.AutoModeBase#runAction
  */
 public interface Action 
 {
