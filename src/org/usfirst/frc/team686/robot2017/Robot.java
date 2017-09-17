@@ -10,6 +10,7 @@ import org.usfirst.frc.team686.robot2017.command_status.RobotState;
 import org.usfirst.frc.team686.robot2017.lib.joystick.ArcadeDriveJoystick;
 import org.usfirst.frc.team686.robot2017.lib.joystick.JoystickControlsBase;
 import org.usfirst.frc.team686.robot2017.lib.util.CrashTracker;
+import org.usfirst.frc.team686.robot2017.lib.util.DataLogger;
 import org.usfirst.frc.team686.robot2017.lib.util.Pose;
 import org.usfirst.frc.team686.robot2017.loop.DriveLoop;
 import org.usfirst.frc.team686.robot2017.loop.LoopController;
@@ -173,7 +174,6 @@ public class Robot extends IterativeRobot {
     public void autonomousInit()
     {
     	operationalMode = OperationalMode.AUTONOMOUS;
-    	gearMode = GearOption.DEFAULT;
     	boolean logToFile = true;
     	boolean logToSmartDashboard = true;
     	robotLogger.setOutputMode(logToFile, logToSmartDashboard);
@@ -186,7 +186,7 @@ public class Robot extends IterativeRobot {
     		autoModeExecuter = null;
     		
     		autoModeExecuter = new AutoModeExecuter();
-    		autoModeExecuter.setAutoMode(new DriveStraightMode(0, false));//setAutoMode(smartDashboardInteractions.getAutoModeSelection());
+    		autoModeExecuter.setAutoMode(smartDashboardInteractions.getAutoModeSelection());
     		
     		setInitialPose(autoModeExecuter.getAutoMode().getInitialPose());
     		
@@ -228,6 +228,7 @@ public class Robot extends IterativeRobot {
 
 			// Select joystick control method
 			controls = smartDashboardInteractions.getJoystickControlsMode();
+			
 
 			// Configure looper
 			loopController.start();
@@ -248,11 +249,14 @@ public class Robot extends IterativeRobot {
 	{
 		try 
 		{
-			boolean rStickYAxis = controls.getButton(Constants.kXboxRStickYAxis);
 			boolean rButtonPressed = controls.getButton(Constants.kXboxButtonRB);
 			boolean lButtonPressed = controls.getButton(Constants.kXboxButtonLB);
 			boolean xButtonPressed = controls.getButton(Constants.kXboxButtonX);
 			boolean aButtonPressed = controls.getButton(Constants.kXboxButtonA);
+			double rTriggerAxis = controls.getAxis(Constants.kXboxRTriggerAxis);
+			double lTriggerAxis = controls.getAxis(Constants.kXboxLTriggerAxis);
+			
+			climber.climb(rTriggerAxis-lTriggerAxis);
 			
 			if(gearMode != GearOption.OUTTAKE && gearMode != GearOption.OUTTAKE_START && !xButtonPressed){
 				drive.setOpenLoop(controls.getDriveCommand());
@@ -265,6 +269,7 @@ public class Robot extends IterativeRobot {
 			if(!lButtonPressed && !rButtonPressed){
 				gearShifter.setHighGear();
 			}
+			
 			
 			switch(gearMode){
 				case INITIALIZE:
@@ -334,22 +339,22 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotPeriodic()
 	{
-		//robotLogger.log();
+		robotLogger.log();
 	}
 
 
 	
 	
-	/*private final DataLogger logger = new DataLogger()
+	private final DataLogger logger = new DataLogger()
     {
         @Override
         public void log()
         {
 			put("OperationalMode", operationalMode.getVal());
         }
-    };*/
+    };
     
-    //public DataLogger getLogger() { return logger; }
+    public DataLogger getLogger() { return logger; }
 	
 	
 }

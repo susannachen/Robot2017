@@ -22,11 +22,13 @@ public class Constants extends ConstantsBase
     public static double kCenterToFrontBumper = 18.0;	// position of front bumper with respect to robot center of rotation
     public static double kCenterToRearBumper = 18.0;	// position of rear bumper with respect to robot center of rotation
     public static double kCenterToSideBumper = 18.0;	// position of side bumper with respect to robot center of rotation
+    // Front Bumper
+    public static double kFrontBumperX = 21;	// position of front bumper with respect to robot center of rotation
     
     // Wheels
-    public static double kDriveWheelCircumInches = 13.250;
+    public static double kDriveWheelCircumInches = 13.229;//13.250;
     public static double kDriveWheelDiameterInches = kDriveWheelCircumInches / Math.PI;
-    public static double kTrackLengthInches = 12.500;
+    public static double kTrackLengthInches = 25.000;
     public static double kTrackWidthInches = 23.000;
     public static double kTrackEffectiveDiameter = (kTrackWidthInches * kTrackWidthInches + kTrackLengthInches * kTrackLengthInches) / kTrackWidthInches;
     public static double kTrackScrubFactor = 0.5;

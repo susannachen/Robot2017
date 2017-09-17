@@ -2,6 +2,7 @@ package org.usfirst.frc.team686.robot2017;
 
 import org.usfirst.frc.team686.robot2017.auto.AutoModeBase;
 import org.usfirst.frc.team686.robot2017.auto.modes.DriveStraightMode;
+import org.usfirst.frc.team686.robot2017.auto.modes.SquarePatternMode;
 import org.usfirst.frc.team686.robot2017.auto.modes.StandStillMode;
 import org.usfirst.frc.team686.robot2017.lib.joystick.ArcadeDriveJoystick;
 import org.usfirst.frc.team686.robot2017.lib.joystick.JoystickControlsBase;
@@ -33,8 +34,8 @@ public class SmartDashboardInteractions
     {
         //PLACE_PEG("Place Peg"),
         STAND_STILL("Stand Still"),
-        DRIVE_STRAIGHT("Drive Straight");
-        //SQUARE_PATTERN("Square Pattern"),
+        DRIVE_STRAIGHT("Drive Straight"),
+        SQUARE_PATTERN("Square Pattern");
     	//POINT_TURN_TEST("Point Turn Test"),
     	//VISION_DELAY_CALIB("Vision Delay Calibration");
     	
@@ -91,7 +92,7 @@ public class SmartDashboardInteractions
     	autoModeChooser.addObject(AutoModeOption.STAND_STILL.toString(),    AutoModeOption.STAND_STILL);
     	//autoModeChooser.addDefault( AutoModeOption.PLACE_PEG.toString(),      AutoModeOption.PLACE_PEG);
     	autoModeChooser.addObject( AutoModeOption.DRIVE_STRAIGHT.toString(), AutoModeOption.DRIVE_STRAIGHT);
-    	//autoModeChooser.addObject( AutoModeOption.SQUARE_PATTERN.toString(), AutoModeOption.SQUARE_PATTERN);
+    	autoModeChooser.addObject( AutoModeOption.SQUARE_PATTERN.toString(), AutoModeOption.SQUARE_PATTERN);
     	//autoModeChooser.addObject( AutoModeOption.POINT_TURN_TEST.toString(), AutoModeOption.POINT_TURN_TEST);
     	//autoModeChooser.addObject( AutoModeOption.VISION_DELAY_CALIB.toString(), AutoModeOption.VISION_DELAY_CALIB);
     	SmartDashboard.putData("Auto Mode Chooser", autoModeChooser);
@@ -139,8 +140,8 @@ public class SmartDashboardInteractions
     	case DRIVE_STRAIGHT:
 			return new DriveStraightMode(selLane, false);
 			
-    	//case SQUARE_PATTERN:
-    	//	return new SquarePatternMode(selLane, false);
+    	case SQUARE_PATTERN:
+    		return new SquarePatternMode(selLane, false);
     		
     	//case POINT_TURN_TEST:
     	//	return new PointTurnTestMode();

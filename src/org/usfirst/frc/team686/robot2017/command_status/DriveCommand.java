@@ -114,6 +114,7 @@ public class DriveCommand
     	return rv; 
     }	
     
+    
     public synchronized void   setCommandTime() { commandTime = Timer.getFPGATimestamp(); }
     public synchronized double getCommandTime() { return commandTime; } 
     

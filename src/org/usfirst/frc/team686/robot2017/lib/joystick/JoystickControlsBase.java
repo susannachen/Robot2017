@@ -24,6 +24,7 @@ public abstract class JoystickControlsBase
     // DRIVER CONTROLS
     public abstract DriveCommand getDriveCommand();	// mapping from joystick controls to DriveSignal
     
+    public abstract double getAxis(int button);
     
     
 }

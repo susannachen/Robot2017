@@ -24,17 +24,10 @@ public class Climber extends Subsystem {
 	
 	
 	public void climb(double speed) {
-		double rotateValue = Util.limit(speed, 1.0);
-		climbMotor.set(speed*rotateValue);
+		//double rotateValue = Util.limit(speed, 1.0);
+		climbMotor.set(speed);
 	}
 	
-	public void release() {
-		climbMotor.set(-1);
-	}
-	
-	public void stop(){
-		climbMotor.set(0.0);
-	}
 	
 	public void log(){
 		
@@ -42,6 +35,13 @@ public class Climber extends Subsystem {
 
 	@Override
 	public void zeroSensors() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void stop() {
 		// TODO Auto-generated method stub
 		
 	}

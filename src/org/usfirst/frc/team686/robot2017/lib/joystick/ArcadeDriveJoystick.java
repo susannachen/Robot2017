@@ -3,6 +3,7 @@ package org.usfirst.frc.team686.robot2017.lib.joystick;
 
 import org.usfirst.frc.team686.robot2017.Constants;
 import org.usfirst.frc.team686.robot2017.command_status.DriveCommand;
+import org.usfirst.frc.team686.robot2017.command_status.GearCommand;
 import org.usfirst.frc.team686.robot2017.lib.util.Util;
 
 /**
@@ -20,8 +21,7 @@ public class ArcadeDriveJoystick extends JoystickControlsBase
     
     public DriveCommand getDriveCommand()
     {
-//	    boolean squaredInputs = true;	// set to true to increase fine control while permitting full power
-	    boolean squaredInputs = false;	// set to true to increase fine control while permitting full power
+    	boolean squaredInputs = true;	// set to true to increase fine control while permitting full power
 	    
     	double throttle = mStick.getY();		        
     	double turn     = mStick.getX();
@@ -69,6 +69,10 @@ public class ArcadeDriveJoystick extends JoystickControlsBase
 	    DriveCommand signal = new DriveCommand(lMotorSpeed, rMotorSpeed);
 	   	    
 	    return signal;        
+    }
+    
+    public double getAxis(int button){
+    	return(mStick.getRawAxis(button));
     }
     
 }
