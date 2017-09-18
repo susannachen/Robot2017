@@ -72,12 +72,12 @@ public class StartToCenterGearToBoilerMode extends AutoModeBase
     	Pose boilerTurnPosition = boilerPose.add(v);
 
     	// where to open ball tray
-    	double distanceToOpenTrayFromBoiler = 4;
+    	double distanceToOpenTrayFromBoiler = 4 + Constants.kCenterToFrontBumper;
     	v = Vector2d.magnitudeAngle(distanceToOpenTrayFromBoiler, boilerPose.getHeading());
     	Pose boilerOpenPosition = boilerPose.add(v);
 
     	// where to stop in front of boiler
-    	double distanceToStopFromBoiler = 2;
+    	double distanceToStopFromBoiler = 2 + Constants.kCenterToFrontBumper;
     	v = Vector2d.magnitudeAngle(distanceToStopFromBoiler, boilerPose.getHeading());
     	Pose boilerStopPosition = boilerPose.add(v);
 
