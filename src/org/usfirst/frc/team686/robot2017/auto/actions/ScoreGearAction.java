@@ -30,7 +30,7 @@ public class ScoreGearAction implements Action {
     public boolean isFinished() {
         return finished;
     }
-
+ 
     @Override
     public void update() {
     	System.out.println("gear running");
