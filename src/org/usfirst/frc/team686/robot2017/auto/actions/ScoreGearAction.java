@@ -40,7 +40,7 @@ public class ScoreGearAction implements Action {
         {
         	System.out.println("gear finished");
         	gearPickup.up();
-        	gearPickup.stopIntake();
+        	gearPickup.stopIntake(); 
         	drive.setOpenLoop(new DriveCommand(0.0, 0.0, true));
         } 
     }
