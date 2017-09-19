@@ -4,6 +4,7 @@ import org.usfirst.frc.team686.robot2017.auto.AutoModeBase;
 import org.usfirst.frc.team686.robot2017.auto.modes.DriveStraightMode;
 import org.usfirst.frc.team686.robot2017.auto.modes.SquarePatternMode;
 import org.usfirst.frc.team686.robot2017.auto.modes.StandStillMode;
+import org.usfirst.frc.team686.robot2017.auto.modes.StartToBoilerPegMode;
 import org.usfirst.frc.team686.robot2017.lib.joystick.ArcadeDriveJoystick;
 import org.usfirst.frc.team686.robot2017.lib.joystick.JoystickControlsBase;
 import org.usfirst.frc.team686.robot2017.lib.util.Pose;
@@ -35,9 +36,10 @@ public class SmartDashboardInteractions
         //PLACE_PEG("Place Peg"),
         STAND_STILL("Stand Still"),
         DRIVE_STRAIGHT("Drive Straight"),
-        SQUARE_PATTERN("Square Pattern");
+        SQUARE_PATTERN("Square Pattern"),
     	//POINT_TURN_TEST("Point Turn Test"),
     	//VISION_DELAY_CALIB("Vision Delay Calibration");
+    	START_TO_BOILER_PEG("Start to Boiler Peg");
     	
         public final String name;
 
@@ -95,6 +97,7 @@ public class SmartDashboardInteractions
     	autoModeChooser.addObject( AutoModeOption.SQUARE_PATTERN.toString(), AutoModeOption.SQUARE_PATTERN);
     	//autoModeChooser.addObject( AutoModeOption.POINT_TURN_TEST.toString(), AutoModeOption.POINT_TURN_TEST);
     	//autoModeChooser.addObject( AutoModeOption.VISION_DELAY_CALIB.toString(), AutoModeOption.VISION_DELAY_CALIB);
+    	autoModeChooser.addObject(AutoModeOption.START_TO_BOILER_PEG.toString(), AutoModeOption.START_TO_BOILER_PEG);
     	SmartDashboard.putData("Auto Mode Chooser", autoModeChooser);
     	
     	startPositionChooser = new SendableChooser<AutoStartOption>();
@@ -148,6 +151,9 @@ public class SmartDashboardInteractions
     		
     	//case VISION_DELAY_CALIB:
 		//	return new CalibrateVisionDelayMode();
+    		
+    	case START_TO_BOILER_PEG:
+    		return new StartToBoilerPegMode(true);
 		
 		default:
             System.out.println("ERROR: unexpected auto mode: " + selMode);

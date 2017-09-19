@@ -2,13 +2,8 @@ package org.usfirst.frc.team686.robot2017.auto.actions;
 
 import org.usfirst.frc.team686.robot2017.lib.util.DataLogger;
 import org.usfirst.frc.team686.robot2017.lib.util.Path;
-<<<<<<< Upstream, based on origin/auto_paths
 import org.usfirst.frc.team686.robot2017.lib.util.PathFollowerWithVisionDriveController;
 import org.usfirst.frc.team686.robot2017.lib.util.PathFollowerWithVisionDriveController.PathVisionState;
-=======
-import org.usfirst.frc.team686.robot2017.util.PathFollowerWithVisionDriveController;
-import org.usfirst.frc.team686.robot2017.util.PathFollowerWithVisionDriveController.PathVisionState;
->>>>>>> 12a512e commented out LedRelay
 
 /**
  * Action for following a path defined by a Path object.

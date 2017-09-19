@@ -179,6 +179,7 @@ public class Robot extends IterativeRobot {
     	robotLogger.setOutputMode(logToFile, logToSmartDashboard);
     	
     	try{
+    		gearPickup.up();
     		CrashTracker.logAutoInit();
     		if(autoModeExecuter != null){
     			autoModeExecuter.stop();

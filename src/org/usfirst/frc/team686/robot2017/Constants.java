@@ -19,9 +19,9 @@ public class Constants extends ConstantsBase
     public static double kDriveWatchdogTimerThreshold = 0.500;    
     
     // Bumpers
-    public static double kCenterToFrontBumper = 18.0;	// position of front bumper with respect to robot center of rotation
-    public static double kCenterToRearBumper = 18.0;	// position of rear bumper with respect to robot center of rotation
-    public static double kCenterToSideBumper = 18.0;	// position of side bumper with respect to robot center of rotation
+    public static double kCenterToFrontBumper = 19.0;	// position of front bumper with respect to robot center of rotation
+    public static double kCenterToRearBumper = 19.5;	// position of rear bumper with respect to robot center of rotation
+    public static double kCenterToSideBumper = 17.5;	// position of side bumper with respect to robot center of rotation
     // Front Bumper
     public static double kFrontBumperX = 21;	// position of front bumper with respect to robot center of rotation
     
