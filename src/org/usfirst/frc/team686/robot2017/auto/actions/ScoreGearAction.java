@@ -42,7 +42,7 @@ public class ScoreGearAction implements Action {
         	gearPickup.up();
         	gearPickup.stopIntake();
         	drive.setOpenLoop(new DriveCommand(0.0, 0.0, true));
-        }
+        } 
     }
 
     @Override
