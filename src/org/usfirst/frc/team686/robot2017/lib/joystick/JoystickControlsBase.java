@@ -18,13 +18,13 @@ public abstract class JoystickControlsBase
     }
 
     public boolean getButton(int _num) { return mStick.getRawButton(_num); }
+    public double getAxis(int _num) { return mStick.getRawAxis(_num); }
     
     
 
     // DRIVER CONTROLS
     public abstract DriveCommand getDriveCommand();	// mapping from joystick controls to DriveSignal
     
-    public abstract double getAxis(int button);
     
     
 }

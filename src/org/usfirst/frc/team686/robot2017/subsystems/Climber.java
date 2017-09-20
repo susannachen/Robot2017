@@ -1,7 +1,6 @@
 package org.usfirst.frc.team686.robot2017.subsystems;
 
 import org.usfirst.frc.team686.robot2017.Constants;
-import org.usfirst.frc.team686.robot2017.lib.util.Util;
 
 import com.ctre.CANTalon;
 
@@ -24,8 +23,7 @@ public class Climber extends Subsystem {
 	
 	
 	public void climb(double speed) {
-		//double rotateValue = Util.limit(speed, 1.0);
-		climbMotor.set(speed);
+		climbMotor.set(Math.abs(speed));
 	}
 	
 	
@@ -41,7 +39,8 @@ public class Climber extends Subsystem {
 
 
 	@Override
-	public void stop() {
+	public void stop()
+	{
 		// TODO Auto-generated method stub
 		
 	}

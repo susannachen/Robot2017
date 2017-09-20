@@ -250,28 +250,13 @@ public class Robot extends IterativeRobot {
 	{
 		try 
 		{
-			boolean rButtonPressed = controls.getButton(Constants.kXboxButtonRB);
-			boolean lButtonPressed = controls.getButton(Constants.kXboxButtonLB);
-			boolean xButtonPressed = controls.getButton(Constants.kXboxButtonX);
-			boolean aButtonPressed = controls.getButton(Constants.kXboxButtonA);
-			double rTriggerAxis = controls.getAxis(Constants.kXboxRTriggerAxis);
-			double lTriggerAxis = controls.getAxis(Constants.kXboxLTriggerAxis);
+
+			boolean highGearButton   = controls.getButton(Constants.kLowGearButton1) || controls.getButton(Constants.kLowGearButton2);
+			boolean gearScoreButton  = controls.getButton(Constants.kGearScoreButton);
+			boolean gearIntakeButton = controls.getButton(Constants.kGearIntakeButton);
+			double  climbStickValue  = controls.getAxis(Constants.kClimbAxis);
 			
-			climber.climb(rTriggerAxis-lTriggerAxis);
-			
-			if(gearMode != GearOption.OUTTAKE && gearMode != GearOption.OUTTAKE_START && !xButtonPressed){
-				drive.setOpenLoop(controls.getDriveCommand());
-			}
-			
-			//climber.climb(rStickYAxis);
-			if(rButtonPressed || lButtonPressed){
-				gearShifter.setLowGear();
-			}
-			if(!lButtonPressed && !rButtonPressed){
-				gearShifter.setHighGear();
-			}
-			
-			
+			// GEAR INTAKE
 			switch(gearMode){
 				case INITIALIZE:
 					gearPickup.down();
@@ -282,9 +267,9 @@ public class Robot extends IterativeRobot {
 					gearPickup.up();
 					gearPickup.stopIntake();
 					
-					if(aButtonPressed){
+					if(gearIntakeButton){
 						gearMode = GearOption.INTAKE;
-					}else if(xButtonPressed){
+					}else if(gearScoreButton){
 						gearMode = GearOption.OUTTAKE_START;
 					}
 					
@@ -292,7 +277,7 @@ public class Robot extends IterativeRobot {
 				case INTAKE:
 					gearPickup.down();
 					gearPickup.intake();
-					if(!aButtonPressed){
+					if(!gearIntakeButton){
 						gearMode = GearOption.DEFAULT;
 					}
 					break;
@@ -302,7 +287,7 @@ public class Robot extends IterativeRobot {
 				case OUTTAKE:
 					gearPickup.down();
 					gearPickup.outtake();
-					drive.setOpenLoop(new DriveCommand(0.5, 0.5)); //not sure why not negative
+					drive.setOpenLoop(new DriveCommand(-0.5, -0.5));
 					
 					double now = Timer.getFPGATimestamp();
 					double timePassed = now-startDropPeg;
@@ -314,6 +299,27 @@ public class Robot extends IterativeRobot {
 					
 			}
 								
+			// SHIFTER
+			if(highGearButton){
+				gearShifter.setLowGear();
+			}
+			else{
+				gearShifter.setHighGear();
+			}
+			
+
+			// DRIVE
+			if (gearMode != GearOption.OUTTAKE && gearMode != GearOption.OUTTAKE_START) {
+				// ignore joystick drive controls while gear is being scored
+				drive.setOpenLoop(controls.getDriveCommand());
+			}
+
+			
+			// CLIMBER
+			climber.climb( climbStickValue );
+			
+			
+		
 		} 
 		catch (Throwable t) 
 		{

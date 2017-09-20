@@ -23,10 +23,4 @@ public class TankDriveJoystick extends JoystickControlsBase{
 	    return signal;        
     }
 
-	@Override
-	public double getAxis(int button) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }
