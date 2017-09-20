@@ -19,14 +19,16 @@ public class Constants extends ConstantsBase
     public static double kDriveWatchdogTimerThreshold = 0.500;    
     
     // Bumpers
-    public static double kCenterToFrontBumper = 18.0;	// position of front bumper with respect to robot center of rotation
-    public static double kCenterToRearBumper = 18.0;	// position of rear bumper with respect to robot center of rotation
-    public static double kCenterToSideBumper = 18.0;	// position of side bumper with respect to robot center of rotation
+    public static double kCenterToFrontBumper = 19.0;	// position of front bumper with respect to robot center of rotation
+    public static double kCenterToRearBumper = 19.5;	// position of rear bumper with respect to robot center of rotation
+    public static double kCenterToSideBumper = 17.5;	// position of side bumper with respect to robot center of rotation
+    // Front Bumper
+    public static double kFrontBumperX = 21;	// position of front bumper with respect to robot center of rotation
     
     // Wheels
-    public static double kDriveWheelCircumInches = 13.250;
+    public static double kDriveWheelCircumInches = 13.229;//13.250;
     public static double kDriveWheelDiameterInches = kDriveWheelCircumInches / Math.PI;
-    public static double kTrackLengthInches = 12.500;
+    public static double kTrackLengthInches = 25.000;
     public static double kTrackWidthInches = 23.000;
     public static double kTrackEffectiveDiameter = (kTrackWidthInches * kTrackWidthInches + kTrackLengthInches * kTrackLengthInches) / kTrackWidthInches;
     public static double kTrackScrubFactor = 0.5;
@@ -71,9 +73,6 @@ public class Constants extends ConstantsBase
     public static double kDriveHeadingVelocityKi = 0.0;
     public static double kDriveHeadingVelocityKd = 50.0;
     
-    //Robot stops when joystick axis < 0.1 and >-0.1
-    public static double kDriveDeadzone = 0.2;
-
     // Point Turn constants
     public static double kPointTurnMaxVel    = 80.0; // inches/sec  		
     public static double kPointTurnMaxAccel  = 200.0; // inches/sec^2	
@@ -150,17 +149,22 @@ public class Constants extends ConstantsBase
     public static int kXboxRTriggerAxis = 3;
     public static int kXboxRStickXAxis  = 4;
     public static int kXboxRStickYAxis  = 5;
-    
+
     // Joystick Mappings
-    public static int kLowGearButton 		= Constants.kXboxButtonY;
-    public static int kForwardIntakeButton 	= Constants.kXboxButtonB;
-    public static int kReverseIntakeButton 	= Constants.kXboxButtonA;
-    public static int kClimbButton 			= Constants.kXboxButtonRB;
-    public static int kReverseClimbButton 	= Constants.kXboxButtonLB;
-    public static int kBallTrayButton 		= Constants.kXboxButtonX;
+    public static int kLowGearButton1 		= Constants.kXboxButtonLB;
+    public static int kLowGearButton2 		= Constants.kXboxButtonRB;
+    public static int kGearIntakeButton 	= Constants.kXboxButtonA;
+    public static int kGearScoreButton 		= Constants.kXboxButtonX;
+    public static int kBallTrayButton 		= Constants.kXboxButtonY;
+    public static int kSwitchCameraButton	= Constants.kXboxButtonB;
+    //public static int kQuickTurnButton 		= Constants.kXboxButtonA;
     
-    public static int kGearIntakeAxis		= Constants.kXboxRStickYAxis;
-    
+    public static int kClimbAxis			= Constants.kXboxRTriggerAxis; 
+        
+    //Robot stops when joystick axis < 0.1 and >-0.1
+    public static double kDriveDeadzone = 0.2;
+
+
 
     // Relay Ports
     public static int kLedRelayPort = 0;

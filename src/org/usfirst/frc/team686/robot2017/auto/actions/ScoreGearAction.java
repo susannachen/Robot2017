@@ -16,25 +16,37 @@ public class ScoreGearAction implements Action {
 
     private double mTimeToBackup = 0.5;
     private double mStartTime;
-
+    private boolean finished;
+    
 	Drive drive = Drive.getInstance();			
 	GearPickup gearPickup = GearPickup.getInstance();
     
-    public ScoreGearAction() {}
-
-    @Override
-    public boolean isFinished() {
-        return (Timer.getFPGATimestamp() - mStartTime) >= mTimeToBackup;
+    public ScoreGearAction() {
+    	mStartTime = Timer.getFPGATimestamp();
+    	finished = false;
     }
 
     @Override
+    public boolean isFinished() {
+        return finished;
+    }
+ 
+    @Override
     public void update() {
+    	System.out.println("gear running");
     	// nothing to do but wait for backup timer to expire
+        finished = (Timer.getFPGATimestamp() - mStartTime) >= mTimeToBackup;
+        if (finished)
+        {
+        	System.out.println("gear finished");
+        	gearPickup.up();
+        	gearPickup.stopIntake(); 
+        	drive.setOpenLoop(new DriveCommand(0.0, 0.0, true));
+        } 
     }
 
     @Override
     public void done() {
-
     }
 
     @Override
@@ -43,7 +55,7 @@ public class ScoreGearAction implements Action {
 		gearPickup.outtake();
 		drive.setOpenLoop(new DriveCommand(-0.5, -0.5)); //not sure why not negative
     }
-
+    
     
 	private final DataLogger logger = new DataLogger()
     {
