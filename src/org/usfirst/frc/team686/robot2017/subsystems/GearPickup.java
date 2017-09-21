@@ -2,6 +2,7 @@ package org.usfirst.frc.team686.robot2017.subsystems;
 
 import org.usfirst.frc.team686.robot2017.Constants;
 import org.usfirst.frc.team686.robot2017.command_status.DriveCommand;
+import org.usfirst.frc.team686.robot2017.command_status.GearCommand;
 
 import com.ctre.CANTalon;
 
@@ -11,20 +12,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class GearPickup extends Subsystem {
-	private DoubleSolenoid gearRelease;
 	private static GearPickup instance = new GearPickup();
 	public static GearPickup getInstance() { return instance; }
 	
-	private final CANTalon intakeMotor;
+	private GearCommand gearCmd;
+	
+
 	
 	public GearPickup(){
-		gearRelease = new DoubleSolenoid(Constants.kGearPickupSolenoidReverseChannel, Constants.kGearPickupSolenoidForwardChannel);
-		intakeMotor = new CANTalon(Constants.kIntakeMotorTalonId);
-		intakeMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		
+		//gearCmd = gearCmd.INITIALIZE();
+		
 	}
 
 	public void down() {
-		gearRelease.set(DoubleSolenoid.Value.kForward);
+		gearCmd.set(DoubleSolenoid.Value.kForward);
 	}
 	
 	public void up() {

@@ -2,6 +2,7 @@ package org.usfirst.frc.team686.robot2017.command_status;
 
 import org.usfirst.frc.team686.robot2017.lib.util.DataLogger;
 import org.usfirst.frc.team686.robot2017.lib.util.Kinematics.WheelSpeed;
+import org.usfirst.frc.team686.robot2017.subsystems.Drive;
 import org.usfirst.frc.team686.robot2017.subsystems.GearPickup;
 
 import com.ctre.CANTalon.TalonControlMode;
@@ -23,8 +24,10 @@ public class GearCommand
 	
 	// all member variables should be private to force other object to use the set/get access methods
 	// which are synchronized to allow multi-thread synchronization	
+	private Drive drive = Drive.getInstance();
 	private GearMode gearMode = GearMode.DEFAULT;
 	private double commandTime;
+	private double startDropPeg;
 	
 	private GearPickup gearPickup = GearPickup.getInstance();
 	
@@ -41,7 +44,7 @@ public class GearCommand
 
     public synchronized void setGearMode(GearMode _gearMode) 
     {
-    	/*gearMode = _gearMode;
+    	gearMode = _gearMode;
 		switch(gearMode){
 		case INITIALIZE:
 			gearPickup.down();
@@ -52,19 +55,19 @@ public class GearCommand
 			gearPickup.up();
 			gearPickup.stopIntake();
 			
-			if(aButtonPressed){
+			/*if(aButtonPressed){
 				gearMode = GearMode.INTAKE;
 			}else if(xButtonPressed){
 				gearMode = GearOption.OUTTAKE_START;
-			}
+			}*/
 			
 			break;
 		case INTAKE:
 			gearPickup.down();
 			gearPickup.intake();
-			if(!aButtonPressed){
+			/*if(!aButtonPressed){
 				gearMode = GearOption.DEFAULT;
-			}
+			}*/
 			break;
 		case OUTTAKE_START:
 			setCommandTime();
@@ -78,18 +81,20 @@ public class GearCommand
 			double timePassed = now-startDropPeg;
 			
 			if(timePassed>0.5){
-				gearMode = GearOption.DEFAULT;
+				gearMode = GearMode.DEFAULT;
 			}
 			break;
 			
-		}*/
+		}
     }
     public synchronized GearMode getGearMode() { return gearMode; }
 
 	    
     public void   setCommandTime() { commandTime = Timer.getFPGATimestamp(); }
     public double getCommandTime() { return commandTime; } 
-	    
+	 
+    public static GearCommand DEFAULT() {return new GearCommand(GearMode.DEFAULT);}
+    
     @Override
     public synchronized String toString() 
     {
@@ -113,6 +118,5 @@ public class GearCommand
     public DataLogger getLogger() { return logger; }
 	    
 
-    
     
 }
