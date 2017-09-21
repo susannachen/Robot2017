@@ -123,6 +123,8 @@ public class Constants extends ConstantsBase
 	public static final int lMotorPolarity = -1;
 	public static final int rMotorPolarity = 1;
 	
+	public static final int kTalonCurrentLimit = 25;
+	
 	//Climb motor
 	public static int kClimbMotorTalonId = 4;
 	

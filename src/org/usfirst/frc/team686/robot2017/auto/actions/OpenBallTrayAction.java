@@ -1,12 +1,8 @@
 package org.usfirst.frc.team686.robot2017.auto.actions;
 
 
-import org.usfirst.frc.team686.robot2017.command_status.DriveCommand;
 import org.usfirst.frc.team686.robot2017.lib.util.DataLogger;
-import org.usfirst.frc.team686.robot2017.subsystems.Drive;
-import org.usfirst.frc.team686.robot2017.subsystems.GearPickup;
-
-import edu.wpi.first.wpilibj.Timer;
+import org.usfirst.frc.team686.robot2017.subsystems.BallTray;
 
 /**
  * Action to score a gear on a peg 
@@ -14,8 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class OpenBallTrayAction implements Action {
 
-	//BallTray ballTray = BallTray.getInstance();
-	//(or just use a double solenoid) 
+	BallTray ballTray = BallTray.getInstance();
     
     public OpenBallTrayAction() {}
 
@@ -35,7 +30,7 @@ public class OpenBallTrayAction implements Action {
 
     @Override
     public void start() {
-		//ballTray.down();
+		ballTray.down();
     }
 
     

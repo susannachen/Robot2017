@@ -35,6 +35,8 @@ public class DriveLoop implements Loop
 	private static final int kVelocityControlSlot = 0;
 	private static final int kBaseLockControlSlot = 1;
 
+	boolean currentLimitEnabled = false;
+	
 	private DriveLoop() 
 	{
 		drive = Drive.getInstance();
@@ -80,6 +82,16 @@ public class DriveLoop implements Loop
 		rMotorSlave1.enableBrakeMode(false);
 		rMotorSlave2.enableBrakeMode(false);
 
+		lMotorMaster.setCurrentLimit(Constants.kTalonCurrentLimit);
+		lMotorSlave1.setCurrentLimit(Constants.kTalonCurrentLimit);
+		lMotorSlave2.setCurrentLimit(Constants.kTalonCurrentLimit);
+		rMotorMaster.setCurrentLimit(Constants.kTalonCurrentLimit);
+		rMotorSlave1.setCurrentLimit(Constants.kTalonCurrentLimit);
+		rMotorSlave2.setCurrentLimit(Constants.kTalonCurrentLimit);
+		
+		enableCurrentLimit(true);
+		
+		
 		// Set up the encoders
 		lMotorMaster.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 		rMotorMaster.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
@@ -252,6 +264,20 @@ public class DriveLoop implements Loop
 		}
 	}
 	
+
+	public void enableCurrentLimit(boolean enable)
+	{
+		if (enable != currentLimitEnabled)
+		{
+			lMotorMaster.EnableCurrentLimit(enable);
+			lMotorSlave1.EnableCurrentLimit(enable);
+			lMotorSlave2.EnableCurrentLimit(enable);
+			rMotorMaster.EnableCurrentLimit(enable);
+			rMotorSlave1.EnableCurrentLimit(enable);
+			rMotorSlave2.EnableCurrentLimit(enable);
+			currentLimitEnabled = enable;
+		}
+	}
 	
 		
 	private void setMotors(DriveCommand newCmd)

@@ -347,7 +347,11 @@ public class Robot extends IterativeRobot {
 				gearShifter.setLowGear();
 			}
 			
+			// TODO: only enable Talon current limiting when in high gear?
+			//       (allows pushing matches in low gear)
+			// drive.enableCurrentLimit(highGearButton)  
 
+			
 			// DRIVE
 			if (gearMode != GearOption.OUTTAKE && gearMode != GearOption.OUTTAKE_START) {
 				// ignore joystick drive controls while gear is being scored
