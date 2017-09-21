@@ -2,6 +2,8 @@ package org.usfirst.frc.team686.robot2017.auto.actions;
 
 
 import org.usfirst.frc.team686.robot2017.command_status.DriveCommand;
+import org.usfirst.frc.team686.robot2017.command_status.GearCommand;
+import org.usfirst.frc.team686.robot2017.command_status.GearCommand.GearMode;
 import org.usfirst.frc.team686.robot2017.lib.util.DataLogger;
 import org.usfirst.frc.team686.robot2017.subsystems.Drive;
 import org.usfirst.frc.team686.robot2017.subsystems.GearPickup;
@@ -39,8 +41,7 @@ public class ScoreGearAction implements Action {
         if (finished)
         {
         	System.out.println("gear finished");
-        	gearPickup.up();
-        	gearPickup.stopIntake(); 
+        	gearPickup.setCommand(GearCommand.DEFAULT());
         	drive.setOpenLoop(new DriveCommand(0.0, 0.0, true));
         } 
     }
@@ -51,9 +52,7 @@ public class ScoreGearAction implements Action {
 
     @Override
     public void start() {
-		gearPickup.down();
-		gearPickup.outtake();
-		drive.setOpenLoop(new DriveCommand(-0.5, -0.5)); //not sure why not negative
+		gearPickup.setCommand(new GearCommand(GearMode.OUTTAKE));
     }
     
     

@@ -7,6 +7,9 @@ import java.nio.file.Paths;
 
 import org.opencv.core.Mat;
 
+
+import org.usfirst.frc.team686.robot2017.lib.util.CircularList;
+
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.MjpegServer;
@@ -14,8 +17,6 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team686.robot2017.lib.util.CircularList;
 
 
 /*

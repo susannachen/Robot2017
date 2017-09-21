@@ -13,7 +13,7 @@ import org.usfirst.frc.team686.robot2017.lib.util.Util;
 public class ArcadeDriveJoystick extends JoystickControlsBase 
 {
     private static JoystickControlsBase mInstance = new ArcadeDriveJoystick();
-    
+
     public static JoystickControlsBase getInstance() 
     {
         return mInstance;

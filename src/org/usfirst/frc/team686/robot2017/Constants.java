@@ -178,6 +178,7 @@ public class Constants extends ConstantsBase
     // Gyro
 	// The I2C port the BNO055 is connected to
     public static final I2C.Port BNO055_PORT = I2C.Port.kOnboard;
+	public static final double kGearOuttakeTimerThreshold = 0.500;
     
     // BNO055 accelerometer calibration constants
     // ( -7, -34,  33, -24) - taken 10/14/2016
