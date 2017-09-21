@@ -5,8 +5,6 @@ import org.usfirst.frc.team686.robot2017.lib.util.Kinematics.WheelSpeed;
 import org.usfirst.frc.team686.robot2017.subsystems.Drive;
 import org.usfirst.frc.team686.robot2017.subsystems.GearPickup;
 
-import com.ctre.CANTalon.TalonControlMode;
-
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -20,20 +18,18 @@ public class GearCommand
 {    
  
 	// The robot gear intake's various states
-	enum GearMode{ INITIALIZE, DEFAULT, INTAKE, OUTTAKE_START, OUTTAKE; }
+	public enum GearMode{ INITIALIZE, DEFAULT, INTAKE, OUTTAKE; }
 	
 	// all member variables should be private to force other object to use the set/get access methods
 	// which are synchronized to allow multi-thread synchronization	
-	private Drive drive = Drive.getInstance();
 	private GearMode gearMode = GearMode.DEFAULT;
 	private double commandTime;
-	private double startDropPeg;
 	
 	private GearPickup gearPickup = GearPickup.getInstance();
 	
 	public GearCommand()
 	{
-	   this(GearMode.DEFAULT);
+	   this(GearMode.INITIALIZE);
 	}
 
 
@@ -47,53 +43,24 @@ public class GearCommand
     	gearMode = _gearMode;
 		switch(gearMode){
 		case INITIALIZE:
-			gearPickup.down();
-			gearPickup.stopIntake();
 			gearMode = GearMode.DEFAULT;
 			break;
 		case DEFAULT:
-			gearPickup.up();
-			gearPickup.stopIntake();
-			
-			/*if(aButtonPressed){
-				gearMode = GearMode.INTAKE;
-			}else if(xButtonPressed){
-				gearMode = GearOption.OUTTAKE_START;
-			}*/
-			
 			break;
 		case INTAKE:
-			gearPickup.down();
-			gearPickup.intake();
-			/*if(!aButtonPressed){
-				gearMode = GearOption.DEFAULT;
-			}*/
 			break;
-		case OUTTAKE_START:
-			setCommandTime();
-			gearMode = GearMode.OUTTAKE;
 		case OUTTAKE:
-			gearPickup.down();
-			gearPickup.outtake();
-			drive.setOpenLoop(new DriveCommand(0.5, 0.5)); //not sure why not negative
 			
-			double now = Timer.getFPGATimestamp();
-			double timePassed = now-startDropPeg;
-			
-			if(timePassed>0.5){
-				gearMode = GearMode.DEFAULT;
-			}
-			break;
 			
 		}
     }
-    public synchronized GearMode getGearMode() { return gearMode; }
-
-	    
+    public synchronized GearMode getGearMode() { return gearMode; }   
+    
     public void   setCommandTime() { commandTime = Timer.getFPGATimestamp(); }
     public double getCommandTime() { return commandTime; } 
-	 
+	    
     public static GearCommand DEFAULT() {return new GearCommand(GearMode.DEFAULT);}
+    public static GearCommand INITIALIZE() {return new GearCommand(GearMode.INITIALIZE);}
     
     @Override
     public synchronized String toString() 
@@ -118,5 +85,6 @@ public class GearCommand
     public DataLogger getLogger() { return logger; }
 	    
 
+    
     
 }

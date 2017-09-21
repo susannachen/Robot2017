@@ -23,8 +23,6 @@ public class Climber extends Subsystem {
 	
 	
 	public void climb(double speed) {
-		//double rotateValue = Util.limit(speed, 1.0);
-		climbMotor.set(speed);
 		climbMotor.set(Math.abs(speed));
 	}
 	
@@ -35,13 +33,6 @@ public class Climber extends Subsystem {
 
 	@Override
 	public void zeroSensors() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void stop() {
 		// TODO Auto-generated method stub
 		
 	}

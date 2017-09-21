@@ -2,6 +2,8 @@ package org.usfirst.frc.team686.robot2017.lib.joystick;
 
 import org.usfirst.frc.team686.robot2017.Constants;
 import org.usfirst.frc.team686.robot2017.command_status.DriveCommand;
+import org.usfirst.frc.team686.robot2017.command_status.GearCommand;
+import org.usfirst.frc.team686.robot2017.command_status.GearCommand.GearMode;
 
 public class TankDriveJoystick extends JoystickControlsBase{
 	
@@ -24,9 +26,9 @@ public class TankDriveJoystick extends JoystickControlsBase{
     }
 
 	@Override
-	public double getAxis(int button) {
+	public GearCommand getGearCommand(GearMode newMode) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 }

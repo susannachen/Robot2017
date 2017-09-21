@@ -30,12 +30,12 @@ public class FieldDimensionsBlue extends FieldDimensions
 	public static double kCenterPegHeading =  180 * Math.PI/180;
 	public static double kBoilerPegHeading = +120 * Math.PI/180;	// negative of red
 	public static double kOtherPegHeading  = -120 * Math.PI/180;	// negative of red
-    public static Pose kCenterPegBase = new Pose(distXWallToAirship,                                            0, kCenterPegHeading);
-	public static Pose kBoilerPegBase = new Pose(distXWallToAirship + kNonCenterPegOffsetX, +kNonCenterPegOffsetY, kBoilerPegHeading);	// same as red, but negate Y
-	public static Pose kOtherPegBase  = new Pose(distXWallToAirship + kNonCenterPegOffsetX, -kNonCenterPegOffsetY, kOtherPegHeading);	// same as red, but negate Y
+    public static Pose kCenterPegBasePose = new Pose(distXWallToAirship,                                            0, kCenterPegHeading);
+	public static Pose kBoilerPegBasePose = new Pose(distXWallToAirship + kNonCenterPegOffsetX, +kNonCenterPegOffsetY, kBoilerPegHeading);	// same as red, but negate Y
+	public static Pose kOtherPegBasePose  = new Pose(distXWallToAirship + kNonCenterPegOffsetX, -kNonCenterPegOffsetY, kOtherPegHeading);	// same as red, but negate Y
 
 	// Boiler Location
-	public static double kBoilerHeading =  45 * Math.PI/180;
+	public static double kBoilerHeading =  -45 * Math.PI/180;	// negative of red
 	public static Pose kBoilerPose = new Pose(distXOriginToCenterOfBoiler, +distYOriginToCenterOfBoiler,    kBoilerHeading);		// same as red, but negate Y
 	
 	// Hopper Locations
@@ -56,9 +56,9 @@ public class FieldDimensionsBlue extends FieldDimensions
     public Pose getOtherStartPose() { return kOtherStartPosition; };
 
     // Peg Locations
-    public Pose getCenterPegBasePose() { return kCenterPegBase; };
-	public Pose getBoilerPegBasePose() { return kBoilerPegBase; };
-	public Pose getOtherPegBasePose() { return kOtherPegBase; };
+    public Pose getCenterPegBasePose() { return kCenterPegBasePose; };
+	public Pose getBoilerPegBasePose() { return kBoilerPegBasePose; };
+	public Pose getOtherPegBasePose() { return kOtherPegBasePose; };
 
 	// Boiler Location
 	public Pose getBoilerPose() { return kBoilerPose; };	

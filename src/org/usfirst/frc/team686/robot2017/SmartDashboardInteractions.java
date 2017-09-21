@@ -1,9 +1,6 @@
 package org.usfirst.frc.team686.robot2017;
 
 import org.usfirst.frc.team686.robot2017.auto.AutoModeBase;
-import org.usfirst.frc.team686.robot2017.auto.modes.DriveStraightMode;
-import org.usfirst.frc.team686.robot2017.auto.modes.SquarePatternMode;
-import org.usfirst.frc.team686.robot2017.auto.modes.StandStillMode;
 import org.usfirst.frc.team686.robot2017.auto.*;
 import org.usfirst.frc.team686.robot2017.auto.modes.*;
 import org.usfirst.frc.team686.robot2017.lib.joystick.ArcadeDriveJoystick;
@@ -30,17 +27,11 @@ public class SmartDashboardInteractions
 {
 
     SendableChooser<AutoModeOption> autoModeChooser;
-    SendableChooser<AutoStartOption> startPositionChooser;
-    SendableChooser<Integer> autoShootChooser;
+
     
     enum AutoModeOption 
     {
-        //PLACE_PEG("Place Peg"),
         STAND_STILL("Stand Still"),
-        DRIVE_STRAIGHT("Drive Straight"),
-        SQUARE_PATTERN("Square Pattern"),
-    	//POINT_TURN_TEST("Point Turn Test"),
-    	//VISION_DELAY_CALIB("Vision Delay Calibration");
         //DRIVE_STRAIGHT("Drive Straight"),
         STEAMWORKS_CENTER("Steamworks Center"),
         STEAMWORKS_BOILER("Steamworks Boiler"),
@@ -77,12 +68,11 @@ public class SmartDashboardInteractions
     public void initWithDefaults() 
     {
     	autoModeChooser = new SendableChooser<AutoModeOption>();
-    	autoModeChooser.addObject(AutoModeOption.STAND_STILL.toString(),    AutoModeOption.STAND_STILL);
-    	//autoModeChooser.addDefault( AutoModeOption.PLACE_PEG.toString(),      AutoModeOption.PLACE_PEG);
-    	autoModeChooser.addObject( AutoModeOption.DRIVE_STRAIGHT.toString(), AutoModeOption.DRIVE_STRAIGHT);
-    	autoModeChooser.addObject( AutoModeOption.SQUARE_PATTERN.toString(), AutoModeOption.SQUARE_PATTERN);
-    	//autoModeChooser.addObject( AutoModeOption.POINT_TURN_TEST.toString(), AutoModeOption.POINT_TURN_TEST);
-    	//autoModeChooser.addObject( AutoModeOption.VISION_DELAY_CALIB.toString(), AutoModeOption.VISION_DELAY_CALIB);
+    	autoModeChooser.addDefault(AutoModeOption.STAND_STILL.toString(),    AutoModeOption.STAND_STILL);
+    	//autoModeChooser.addObject(AutoModeOption.DRIVE_STRAIGHT.toString(),    AutoModeOption.DRIVE_STRAIGHT);
+    	autoModeChooser.addObject( AutoModeOption.STEAMWORKS_CENTER.toString(), AutoModeOption.STEAMWORKS_CENTER);
+    	autoModeChooser.addObject( AutoModeOption.STEAMWORKS_BOILER.toString(), AutoModeOption.STEAMWORKS_BOILER);
+    	autoModeChooser.addObject( AutoModeOption.STEAMWORKS_OTHER.toString(), AutoModeOption.STEAMWORKS_OTHER);
     	SmartDashboard.putData("Auto Mode Chooser", autoModeChooser);
     	
     	joystickModeChooser = new SendableChooser<JoystickOption>();
@@ -102,7 +92,6 @@ public class SmartDashboardInteractions
     public AutoModeBase getAutoModeSelection() 
     {
     	AutoModeOption selMode = (AutoModeOption)autoModeChooser.getSelected(); 
-    	int selLane = startPositionChooser.getSelected().number;
 
         FieldDimensions fieldDimensions = new FieldDimensionsRed();
         DriverStation.Alliance alliance = DriverStation.getInstance().getAlliance();
@@ -124,37 +113,24 @@ public class SmartDashboardInteractions
         
     	switch (selMode)
     	{
-    	
-    	case STAND_STILL:
-			return new StandStillMode();
-			
-//    	case DRIVE_STRAIGHT:
-//			return new DriveStraightMode(0, false);
-			
-    	case STEAMWORKS_CENTER:
-			return new StartToCenterPegToBoilerMode(fieldDimensions);
-			
-    	case STEAMWORKS_BOILER:
-			return new StartToBoilerPegToBoilerMode(fieldDimensions);
-			
-    	case STEAMWORKS_OTHER:
-			return new StartToOtherPegToOtherSideMode(fieldDimensions);
-			
-    	case SQUARE_PATTERN:
-    		return new SquarePatternMode(selLane, false);
-    		
-    	//case POINT_TURN_TEST:
-    	//	return new PointTurnTestMode();
-    		
-    	//case VISION_DELAY_CALIB:
-		//	return new CalibrateVisionDelayMode();
-    		
-    	case START_TO_BOILER_PEG:
-    		return new StartToBoilerPegMode(true);
-		
-		default:
-            System.out.println("ERROR: unexpected auto mode: " + selMode);
-			return new StandStillMode();
+	    	case STAND_STILL:
+				return new StandStillMode();
+				
+	//    	case DRIVE_STRAIGHT:
+	//			return new DriveStraightMode(0, false);
+				
+	    	case STEAMWORKS_CENTER:
+				return new StartToCenterPegToBoilerMode(fieldDimensions);
+				
+	    	case STEAMWORKS_BOILER:
+				return new StartToBoilerPegToBoilerMode(fieldDimensions);
+				
+	    	case STEAMWORKS_OTHER:
+				return new StartToOtherPegToOtherSideMode(fieldDimensions);
+				
+			default:
+	            System.out.println("ERROR: unexpected auto mode: " + selMode);
+				return new StandStillMode();
 	    }
     }
 

@@ -4,6 +4,7 @@ package org.usfirst.frc.team686.robot2017.lib.joystick;
 import org.usfirst.frc.team686.robot2017.Constants;
 import org.usfirst.frc.team686.robot2017.command_status.DriveCommand;
 import org.usfirst.frc.team686.robot2017.command_status.GearCommand;
+import org.usfirst.frc.team686.robot2017.command_status.GearCommand.GearMode;
 import org.usfirst.frc.team686.robot2017.lib.util.Util;
 
 /**
@@ -12,12 +13,19 @@ import org.usfirst.frc.team686.robot2017.lib.util.Util;
 public class ArcadeDriveJoystick extends JoystickControlsBase 
 {
     private static JoystickControlsBase mInstance = new ArcadeDriveJoystick();
-
+    
     public static JoystickControlsBase getInstance() 
     {
         return mInstance;
     }
 
+    boolean highGearButton   = mStick.getRawButton(Constants.kHighGearButton1) || mStick.getRawButton(Constants.kHighGearButton2);
+	boolean gearScoreButton  = mStick.getRawButton(Constants.kGearScoreButton);
+	boolean gearIntakeButton = mStick.getRawButton(Constants.kGearIntakeButton);
+	double  climbStickValue  = mStick.getRawAxis(Constants.kClimbAxis);
+	boolean cameraSwitchButton = mStick.getRawButton(Constants.kSwitchCameraButton);
+	boolean ballTrayButton = mStick.getRawButton(Constants.kBallTrayButton);
+	
     
     public DriveCommand getDriveCommand()
     {
@@ -71,8 +79,29 @@ public class ArcadeDriveJoystick extends JoystickControlsBase
 	    return signal;        
     }
     
-    public double getAxis(int button){
-    	return(mStick.getRawAxis(button));
+    public GearCommand getGearCommand(GearMode newMode){
+    	GearCommand signal = new GearCommand(newMode);
+    	switch(newMode){
+    		case INITIALIZE:
+    			break;
+	    	case DEFAULT:
+		    	if(gearIntakeButton){
+					signal = new GearCommand(GearMode.INTAKE);
+				}else if(gearScoreButton){
+					signal = new GearCommand(GearMode.OUTTAKE);
+				}
+		    	break;
+	    	case INTAKE:
+	    		if(!gearIntakeButton){
+					signal = new GearCommand(GearMode.DEFAULT);
+				}
+	    		break;
+	    	case OUTTAKE:
+	    		break;
+    	}
+    	return signal;
     }
+
+
     
 }

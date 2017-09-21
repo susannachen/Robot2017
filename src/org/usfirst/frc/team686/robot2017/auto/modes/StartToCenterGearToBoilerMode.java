@@ -33,9 +33,9 @@ public class StartToCenterGearToBoilerMode extends AutoModeBase
     	isRed = _isRed;
     	
     	if (isRed)
-    		initialPose = FieldDimensions.kCenterStartPositionRed;
+    		initialPose = FieldDimensionsRed.kCenterStartPosition;
     	else
-    		initialPose = FieldDimensions.kCenterStartPositionBlue;
+    		initialPose = FieldDimensionsBlue.kCenterStartPosition;
     }
     
     private void init()
@@ -48,8 +48,8 @@ public class StartToCenterGearToBoilerMode extends AutoModeBase
 		Pose pegPose, boilerPose;
     	if (isRed)
     	{
-    		pegPose = FieldDimensions.kCenterPegBaseRed;
-    		boilerPose = FieldDimensions.kBoilerPoseRed;
+    		pegPose = FieldDimensionsRed.kCenterPegBaseRed;
+    		boilerPose = FieldDimensionsBlue.kBoilerPoseRed;
     	}
     	else
     	{
