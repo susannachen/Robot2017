@@ -8,6 +8,7 @@ import org.usfirst.frc.team686.robot2017.command_status.DriveStatus;
 import org.usfirst.frc.team686.robot2017.command_status.RobotState;
 import org.usfirst.frc.team686.robot2017.lib.joystick.ArcadeDriveJoystick;
 import org.usfirst.frc.team686.robot2017.lib.joystick.JoystickControlsBase;
+import org.usfirst.frc.team686.robot2017.lib.sensors.SwitchableCameraServer;
 import org.usfirst.frc.team686.robot2017.lib.util.CrashTracker;
 import org.usfirst.frc.team686.robot2017.lib.util.DataLogger;
 import org.usfirst.frc.team686.robot2017.lib.util.Pose;
@@ -17,11 +18,6 @@ import org.usfirst.frc.team686.robot2017.loop.RobotStateLoop;
 import org.usfirst.frc.team686.robot2017.subsystems.*;
 import org.usfirst.frc.team686.robot2017.util.DataLogController;
 
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.cscore.VideoSink;
-import edu.wpi.cscore.VideoSource;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Timer;
@@ -45,14 +41,10 @@ public class Robot extends IterativeRobot {
     
     SmartDashboardInteractions smartDashboardInteractions;
     DataLogController robotLogger;
-    
-    VideoSource camera1;
-    VideoSource camera2;
-    CvSink cvsink1;
-    CvSink cvsink2;
-    VideoSink server;
-    boolean cameraButtonPrev = false;
 
+    SwitchableCameraServer switchableCameraServer;
+    boolean camaraSwitchButtonPrev = false;
+    
     private double startDropPeg;
 
     enum GearOption{
@@ -103,23 +95,7 @@ public class Robot extends IterativeRobot {
     		
     		setInitialPose(new Pose());
     		
-    		cameraButtonPrev = false;
-    		UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(0);
-    		UsbCamera camera2 = CameraServer.getInstance().startAutomaticCapture(1);
-			server = CameraServer.getInstance().getServer();
-		
-			// dummy sinks to keep camera connections open
-			cvsink1 = new CvSink("cam1cv");
-			cvsink1.setSource(camera1);
-			cvsink1.setEnabled(true);
-			cvsink2 = new CvSink("cam2cv");
-			cvsink2.setSource(camera2);
-			cvsink2.setEnabled(true);
-    		
-//    		camera1.setBrightness(-255);
-    		camera1.setResolution(640, 480);
-//    		camera2.setBrightness(-255);
-    		camera2.setResolution(640, 480);
+    		switchableCameraServer = new SwitchableCameraServer("cam0");
     		
     	}
     	catch(Throwable t)
@@ -184,16 +160,11 @@ public class Robot extends IterativeRobot {
 			
 			// CAMERA
 			boolean cameraSwitchButton = controls.getButton(Constants.kSwitchCameraButton);
-
-			if (cameraSwitchButton && !cameraButtonPrev)
+			if (cameraSwitchButton && !camaraSwitchButtonPrev)
 			{
-				server.setSource(camera2);
+				switchableCameraServer.changeToNextCamera();
 			}
-			else if (!cameraSwitchButton && cameraButtonPrev)
-			{
-				server.setSource(camera1);
-			}
-			cameraButtonPrev = cameraSwitchButton;
+			camaraSwitchButtonPrev = cameraSwitchButton;
 			
 		} 
 		catch (Throwable t) 
@@ -374,15 +345,11 @@ public class Robot extends IterativeRobot {
 			
 			
 			// CAMERA
-			if (cameraSwitchButton && !cameraButtonPrev)
+			if (cameraSwitchButton && !camaraSwitchButtonPrev)
 			{
-				server.setSource(camera2);
+				switchableCameraServer.changeToNextCamera();
 			}
-			else if (!cameraSwitchButton && cameraButtonPrev)
-			{
-				server.setSource(camera1);
-			}
-			cameraButtonPrev = cameraSwitchButton;
+			camaraSwitchButtonPrev = cameraSwitchButton;
 		} 
 		catch (Throwable t) 
 		{
@@ -410,6 +377,7 @@ public class Robot extends IterativeRobot {
 	public void robotPeriodic()
 	{
 		robotLogger.log();
+		switchableCameraServer.outputToSmartDashboard();
 	}
 
 
