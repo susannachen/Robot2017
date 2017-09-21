@@ -125,7 +125,7 @@ v = Vector2d.magnitudeAngle(FieldDimensions.getDistanceToStopFromPeg(), pegPose.
 pegStopPosition = pegPosition.add(v);
 
 % where to backup to after scoring gear
-distanceToTurnFromPeg = 60;
+distanceToTurnFromPeg = 60; 
 v = Vector2d.magnitudeAngle(distanceToTurnFromPeg, pegPose.getHeading());
 backupTurn = pegPosition.add(v);
 distanceToBackUpFromTurn = 24;
