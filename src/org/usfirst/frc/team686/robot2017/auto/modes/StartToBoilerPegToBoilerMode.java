@@ -119,7 +119,6 @@ boilerHeading = boilerPose.getHeading();
 
 % where to turn towards peg
 pegTurnPosition = Util.getLineIntersection(initialPose, pegPose);
-pegTurnPosition.add(Vector2d(20,0));
 
 % where to stop to score gear
 v = Vector2d.magnitudeAngle(FieldDimensions.getDistanceToStopFromPeg(), pegPose.getHeading());

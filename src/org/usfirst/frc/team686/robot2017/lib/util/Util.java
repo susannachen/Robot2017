@@ -68,6 +68,58 @@ public class Util
         return rv;
     }
 
+    public static Optional<Vector2d> getLineIntersection(Pose pose1, Pose pose2)
+    {
+    	// find intersection of lines defined by pose1 and pose2
+
+    	// generate line segment AB in direction of pose1
+        Vector2d A = pose1.getPosition();
+        Vector2d B = A.add(Vector2d.magnitudeAngle(1, pose1.getHeading()));
+
+        // generate line segment CD in direction of pose2
+        Vector2d C = pose2.getPosition();
+        Vector2d D = C.add(Vector2d.magnitudeAngle(1, pose2.getHeading()));
+        
+        return getLineIntersection(A, B, C, D);
+    }
+    
+    public static Optional<Vector2d> getLineIntersection(Vector2d _A, Vector2d _B, Vector2d _C, Vector2d _D)
+    {
+    	// find intersection of line AB with line CD
+        // from http://alienryderflex.com/intersect/
+   
+        // translate lines so that A is on the origin
+        // (we'll assume A is at (0,0) but not actually calculate it)
+        Vector2d B = _B.sub(_A);
+        Vector2d C = _C.sub(_A);
+        Vector2d D = _D.sub(_A);
+        
+        // rotate system so that B on along the x-axis
+        double theta =  B.angle();
+        C = C.rotate(-theta);
+        D = D.rotate(-theta);
+        
+        // fail if lines are parallel (if CD is now along x-axis)
+        double Cx = C.getX();
+        double Cy = C.getY();
+        double Dx = D.getX();
+        double Dy = D.getY();
+        if (Cy == Dy)
+        {
+            return Optional.empty();
+        }
+        
+        // discover the intersection of CD wit x-axis
+        Vector2d soln = new Vector2d(Dx+(Cx-Dx)*Dy/(Dy-Cy), 0);
+        
+        // rotate back to original orientation
+        soln = soln.rotate(theta);
+        soln = soln.add(_A);
+        
+        return Optional.of(soln);
+    }
+    
+    
     
     public static Optional<Vector2d[]> getLineCircleIntersection(Vector2d _p1, Vector2d _p2, Vector2d _center, double _radius)
     {
