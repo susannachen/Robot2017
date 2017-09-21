@@ -18,6 +18,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team686.robot2017.lib.util.CircularList;
 
 
+/*
+ * Web Browser address for camera exposure controls
+ * http://roborio-686-frc.local:1811/   or 
+ * http://10.6.86.2:1811/
+ * 
+ * MJPGServer @
+ * http://roboRIO-686-frc.local:1811/stream.mjpg   or  
+ * http://10.6.86.2:1811/stream.mjpg
+ * 
+ * have also seen port 5800 used instead of 1811 
+ */
+
+
 //This class implements all functionality for operator/driver cameras
 public class SwitchableCameraServer
 {	
