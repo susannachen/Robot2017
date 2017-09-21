@@ -15,6 +15,7 @@ public class GearShift extends Subsystem {
 	
 	public GearShift(){
 		gearSolenoid = new DoubleSolenoid(0, Constants.kGearShiftSolenoidForwardChannel, Constants.kGearShiftSolenoidReverseChannel);
+		setLowGear();
 	}
 
 	public void setHighGear() {

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team686.robot2017;
+package org.usfirst.frc.team686.robot2017; 
 
 import java.util.TimeZone;
 
@@ -18,7 +18,10 @@ import org.usfirst.frc.team686.robot2017.loop.RobotStateLoop;
 import org.usfirst.frc.team686.robot2017.subsystems.*;
 import org.usfirst.frc.team686.robot2017.util.DataLogController;
 
+import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
+import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -35,6 +38,7 @@ public class Robot extends IterativeRobot {
 	GearPickup gearPickup = GearPickup.getInstance();
 	Climber climber = Climber.getInstance();
 	GearShift gearShifter = GearShift.getInstance();
+	BallTray ballTray = BallTray.getInstance();
 
 	
 	AutoModeExecuter autoModeExecuter = null;
@@ -44,7 +48,12 @@ public class Robot extends IterativeRobot {
     SmartDashboardInteractions smartDashboardInteractions;
     DataLogController robotLogger;
     
-    CameraServer camera;
+    VideoSource camera1;
+    VideoSource camera2;
+    CvSink cvsink1;
+    CvSink cvsink2;
+    VideoSink server;
+    boolean cameraButtonPrev = false;
 
     private double startDropPeg;
 
@@ -96,9 +105,23 @@ public class Robot extends IterativeRobot {
     		
     		setInitialPose(new Pose());
     		
-    		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-    		camera.setBrightness(-255);
-    		camera.setResolution(640, 480);
+    		cameraButtonPrev = false;
+    		UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(0);
+    		UsbCamera camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+			server = CameraServer.getInstance().getServer();
+		
+			// dummy sinks to keep camera connections open
+			cvsink1 = new CvSink("cam1cv");
+			cvsink1.setSource(camera1);
+			cvsink1.setEnabled(true);
+			cvsink2 = new CvSink("cam2cv");
+			cvsink2.setSource(camera2);
+			cvsink2.setEnabled(true);
+    		
+//    		camera1.setBrightness(-255);
+    		camera1.setResolution(640, 480);
+//    		camera2.setBrightness(-255);
+    		camera2.setResolution(640, 480);
     		
     	}
     	catch(Throwable t)
@@ -160,6 +183,20 @@ public class Robot extends IterativeRobot {
 			stopAll(); 			// stop all actuators
 
 			System.gc(); 		// runs garbage collector
+			
+			// CAMERA
+			boolean cameraSwitchButton = controls.getButton(Constants.kSwitchCameraButton);
+
+			if (cameraSwitchButton && !cameraButtonPrev)
+			{
+				server.setSource(camera2);
+			}
+			else if (!cameraSwitchButton && cameraButtonPrev)
+			{
+				server.setSource(camera1);
+			}
+			cameraButtonPrev = cameraSwitchButton;
+			
 		} 
 		catch (Throwable t) 
 		{
@@ -180,6 +217,9 @@ public class Robot extends IterativeRobot {
     	
     	try{
     		gearPickup.up();
+    		ballTray.up();
+			gearShifter.setLowGear();
+    		
     		CrashTracker.logAutoInit();
     		if(autoModeExecuter != null){
     			autoModeExecuter.stop();
@@ -234,6 +274,7 @@ public class Robot extends IterativeRobot {
 			// Configure looper
 			loopController.start();
 
+			gearShifter.setLowGear();
 			drive.setOpenLoop(DriveCommand.NEUTRAL());
 
 		} 
@@ -250,11 +291,12 @@ public class Robot extends IterativeRobot {
 	{
 		try 
 		{
-
-			boolean highGearButton   = controls.getButton(Constants.kLowGearButton1) || controls.getButton(Constants.kLowGearButton2);
+			boolean highGearButton   = controls.getButton(Constants.kHighGearButton1) || controls.getButton(Constants.kHighGearButton2);
 			boolean gearScoreButton  = controls.getButton(Constants.kGearScoreButton);
 			boolean gearIntakeButton = controls.getButton(Constants.kGearIntakeButton);
 			double  climbStickValue  = controls.getAxis(Constants.kClimbAxis);
+			boolean cameraSwitchButton = controls.getButton(Constants.kSwitchCameraButton);
+			boolean ballTrayButton = controls.getButton(Constants.kBallTrayButton);
 			
 			// GEAR INTAKE
 			switch(gearMode){
@@ -300,11 +342,11 @@ public class Robot extends IterativeRobot {
 			}
 								
 			// SHIFTER
-			if(highGearButton){
-				gearShifter.setLowGear();
-			}
-			else{
+			if (highGearButton)
+			{
 				gearShifter.setHighGear();
+			} else {
+				gearShifter.setLowGear();
 			}
 			
 
@@ -317,9 +359,28 @@ public class Robot extends IterativeRobot {
 			
 			// CLIMBER
 			climber.climb( climbStickValue );
+
 			
 			
-		
+			// Ball Tray
+			if (ballTrayButton){
+				ballTray.down();
+			} else { 
+				ballTray.up();
+			}
+			
+			
+			
+			// CAMERA
+			if (cameraSwitchButton && !cameraButtonPrev)
+			{
+				server.setSource(camera2);
+			}
+			else if (!cameraSwitchButton && cameraButtonPrev)
+			{
+				server.setSource(camera1);
+			}
+			cameraButtonPrev = cameraSwitchButton;
 		} 
 		catch (Throwable t) 
 		{
