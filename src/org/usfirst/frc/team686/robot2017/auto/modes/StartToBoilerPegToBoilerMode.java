@@ -134,7 +134,7 @@ backupPosition = backupTurn.add(v);
 
 % where to turn towards boiler
 distanceToTurnFromBoiler = 50;
-v = Vector2d.magnitudeAngle(distanceToTurnFromBoiler, boilerHeading);
+v = Vector2d.magnitudeAngle(distanceToTurnFromBoiler, boilerHeading); 
 boilerTurnPosition = boilerPosition.add(v);
 
 % where to open ball tray
