@@ -4,11 +4,13 @@ import org.usfirst.frc.team686.robot2017.auto.AutoModeBase;
 import org.usfirst.frc.team686.robot2017.auto.modes.DriveStraightMode;
 import org.usfirst.frc.team686.robot2017.auto.modes.SquarePatternMode;
 import org.usfirst.frc.team686.robot2017.auto.modes.StandStillMode;
-import org.usfirst.frc.team686.robot2017.auto.modes.StartToBoilerPegMode;
+import org.usfirst.frc.team686.robot2017.auto.*;
+import org.usfirst.frc.team686.robot2017.auto.modes.*;
 import org.usfirst.frc.team686.robot2017.lib.joystick.ArcadeDriveJoystick;
 import org.usfirst.frc.team686.robot2017.lib.joystick.JoystickControlsBase;
 import org.usfirst.frc.team686.robot2017.lib.util.Pose;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -39,7 +41,10 @@ public class SmartDashboardInteractions
         SQUARE_PATTERN("Square Pattern"),
     	//POINT_TURN_TEST("Point Turn Test"),
     	//VISION_DELAY_CALIB("Vision Delay Calibration");
-    	START_TO_BOILER_PEG("Start to Boiler Peg");
+        //DRIVE_STRAIGHT("Drive Straight"),
+        STEAMWORKS_CENTER("Steamworks Center"),
+        STEAMWORKS_BOILER("Steamworks Boiler"),
+        STEAMWORKS_OTHER("Steamworks Other");
     	
         public final String name;
 
@@ -48,25 +53,6 @@ public class SmartDashboardInteractions
         }
     }
 
-    enum AutoStartOption 
-    {
-        START_POS_1("Position 1", 1, new Pose(1,1,0)), 
-        START_POS_2("Position 2", 2, new Pose(2,2,0)), 
-        START_POS_3("Position 3", 3, new Pose(3,3,0));
-
-        public String name;
-        public int number;
-        public Pose startPose;
-
-        AutoStartOption(String _name, int _number, Pose _startPose)
-        {
-            name = _name;
-            number = _number;
-            startPose = _startPose;
-        }
-    }
-    
-    
     SendableChooser<JoystickOption> joystickModeChooser;
     
     enum JoystickOption 
@@ -97,19 +83,7 @@ public class SmartDashboardInteractions
     	autoModeChooser.addObject( AutoModeOption.SQUARE_PATTERN.toString(), AutoModeOption.SQUARE_PATTERN);
     	//autoModeChooser.addObject( AutoModeOption.POINT_TURN_TEST.toString(), AutoModeOption.POINT_TURN_TEST);
     	//autoModeChooser.addObject( AutoModeOption.VISION_DELAY_CALIB.toString(), AutoModeOption.VISION_DELAY_CALIB);
-    	autoModeChooser.addObject(AutoModeOption.START_TO_BOILER_PEG.toString(), AutoModeOption.START_TO_BOILER_PEG);
     	SmartDashboard.putData("Auto Mode Chooser", autoModeChooser);
-    	
-    	startPositionChooser = new SendableChooser<AutoStartOption>();
-    	startPositionChooser.addDefault(AutoStartOption.START_POS_1.toString(), AutoStartOption.START_POS_1);
-    	startPositionChooser.addObject( AutoStartOption.START_POS_2.toString(), AutoStartOption.START_POS_2);
-    	startPositionChooser.addObject( AutoStartOption.START_POS_3.toString(), AutoStartOption.START_POS_3);
-    	SmartDashboard.putData("Start Position Chooser", startPositionChooser);
-    	
-    	autoShootChooser = new SendableChooser<Integer>();
-    	autoShootChooser.addDefault("Do Not Shoot", 0);
-    	autoShootChooser.addObject( "Shoot", 1);
-    	SmartDashboard.putData("Shooting Chooser", autoShootChooser);
     	
     	joystickModeChooser = new SendableChooser<JoystickOption>();
     	joystickModeChooser.addDefault(JoystickOption.ARCADE_DRIVE.toString(),        JoystickOption.ARCADE_DRIVE);
@@ -130,18 +104,41 @@ public class SmartDashboardInteractions
     	AutoModeOption selMode = (AutoModeOption)autoModeChooser.getSelected(); 
     	int selLane = startPositionChooser.getSelected().number;
 
+        FieldDimensions fieldDimensions = new FieldDimensionsRed();
+        DriverStation.Alliance alliance = DriverStation.getInstance().getAlliance();
+        if (alliance == DriverStation.Alliance.Blue)
+        {
+        	fieldDimensions = new FieldDimensionsBlue();
+        }
+
+        System.out.print("Alliance detected as: ");
+        if (alliance == DriverStation.Alliance.Red) {
+            System.out.println("Red");
+        } else if (alliance == DriverStation.Alliance.Blue) {
+                System.out.println("Blue");
+        } else {
+            System.out.println("INVALID");
+        }
+
+        
+        
     	switch (selMode)
     	{
     	
     	case STAND_STILL:
 			return new StandStillMode();
 			
-    	//case PLACE_PEG:
-        //	boolean isShooting = ((int)autoShootChooser.getSelected() == 1);
-		//	return new AutoPlacePegMode(selLane, isShooting);
-		
-    	case DRIVE_STRAIGHT:
-			return new DriveStraightMode(selLane, false);
+//    	case DRIVE_STRAIGHT:
+//			return new DriveStraightMode(0, false);
+			
+    	case STEAMWORKS_CENTER:
+			return new StartToCenterPegToBoilerMode(fieldDimensions);
+			
+    	case STEAMWORKS_BOILER:
+			return new StartToBoilerPegToBoilerMode(fieldDimensions);
+			
+    	case STEAMWORKS_OTHER:
+			return new StartToOtherPegToOtherSideMode(fieldDimensions);
 			
     	case SQUARE_PATTERN:
     		return new SquarePatternMode(selLane, false);
@@ -158,14 +155,7 @@ public class SmartDashboardInteractions
 		default:
             System.out.println("ERROR: unexpected auto mode: " + selMode);
 			return new StandStillMode();
-    	}
-    }
-
-
-    public Pose getStartPose() 
-    {
-    	AutoStartOption selection = (AutoStartOption)startPositionChooser.getSelected();
-    	return new Pose(selection.startPose);
+	    }
     }
 
 

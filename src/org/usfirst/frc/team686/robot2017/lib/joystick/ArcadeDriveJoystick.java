@@ -23,8 +23,8 @@ public class ArcadeDriveJoystick extends JoystickControlsBase
     {
     	boolean squaredInputs = true;	// set to true to increase fine control while permitting full power
 	    
-    	double throttle = mStick.getY();		        
-    	double turn     = mStick.getX();
+    	double throttle = -mStick.getY();		        
+    	double turn     = -mStick.getX();
         
         if(throttle < Constants.kDriveDeadzone && throttle > -Constants.kDriveDeadzone){throttle = 0;}
         if(turn < Constants.kDriveDeadzone && turn > -Constants.kDriveDeadzone){turn = 0;}

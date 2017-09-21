@@ -18,6 +18,7 @@ public abstract class JoystickControlsBase
     }
 
     public boolean getButton(int _num) { return mStick.getRawButton(_num); }
+    public double getAxis(int _num) { return mStick.getRawAxis(_num); }
     
     
 

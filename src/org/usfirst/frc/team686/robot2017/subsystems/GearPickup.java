@@ -23,6 +23,9 @@ public class GearPickup extends Subsystem {
 		
 		//gearCmd = gearCmd.INITIALIZE();
 		
+		gearRelease = new DoubleSolenoid(Constants.kGearPickupSolenoidReverseChannel, Constants.kGearPickupSolenoidForwardChannel);
+		intakeMotor = new CANTalon(Constants.kIntakeMotorTalonId);
+		intakeMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 	}
 
 	public void down() {
