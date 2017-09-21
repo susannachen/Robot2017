@@ -125,14 +125,18 @@ public class Constants extends ConstantsBase
 	
 	//Climb motor
 	public static int kClimbMotorTalonId = 4;
-		
-	//Solenoid ports for pneumatics
-	public static int kGearShiftSolenoidForwardChannel = 0;
-	public static int kGearShiftSolenoidReverseChannel = 1;
 	
+	// Gear intake motor
+	public static int kIntakeMotorTalonId = 8;
+
+	
+	//Solenoid ports for pneumatics
+	public static int kGearShiftSolenoidForwardChannel = 1;
+	public static int kGearShiftSolenoidReverseChannel = 0;	
 	public static int kGearPickupSolenoidForwardChannel = 2;
 	public static int kGearPickupSolenoidReverseChannel = 3;
-	public static int kIntakeMotorTalonId = 8;
+	public static int kBallTraySolenoidForwardChannel = 4;
+	public static int kBallTraySolenoidReverseChannel = 5;
     
 
     // Joystick Controls
@@ -151,8 +155,8 @@ public class Constants extends ConstantsBase
     public static int kXboxRStickYAxis  = 5;
 
     // Joystick Mappings
-    public static int kLowGearButton1 		= Constants.kXboxButtonLB;
-    public static int kLowGearButton2 		= Constants.kXboxButtonRB;
+    public static int kHighGearButton1 		= Constants.kXboxButtonLB;
+    public static int kHighGearButton2 		= Constants.kXboxButtonRB;
     public static int kGearIntakeButton 	= Constants.kXboxButtonA;
     public static int kGearScoreButton 		= Constants.kXboxButtonX;
     public static int kBallTrayButton 		= Constants.kXboxButtonY;
