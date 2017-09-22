@@ -20,14 +20,12 @@ import org.usfirst.frc.team686.robot2017.lib.util.CircularList;
 
 /*
  * Web Browser address for camera exposure controls
- * http://roborio-686-frc.local:1811/   or 
- * http://10.6.86.2:1811/
+ * http://roborio-686-frc.local:1181/   or 
+ * http://10.6.86.2:1181/
  * 
  * MJPGServer @
- * http://roboRIO-686-frc.local:1811/stream.mjpg   or  
- * http://10.6.86.2:1811/stream.mjpg
- * 
- * have also seen port 5800 used instead of 1811 
+ * http://roboRIO-686-frc.local:1181/stream.mjpg   or  
+ * http://10.6.86.2:1181/stream.mjpg
  */
 
 
@@ -49,7 +47,14 @@ public class SwitchableCameraServer
 	
 	private CircularList<String> _camList;
 
-	private int exposure = 10;
+	private int cameraResWidth  = 320;
+	private int cameraResHeight = 240;
+	
+	private int streamResWidth  = 320;
+	private int streamResHeight = 240;
+	
+	private int cam0exposure = 4;	// back camera
+	private int exposure = 1;		// front camera
 	private int fps = 15;
 	
 	//============================================================================================
@@ -230,7 +235,7 @@ public class SwitchableCameraServer
 		    }
  
             // create an output stream
-            CvSource outputStream = CameraServer.getInstance().putVideo("Switcher", 320, 240);
+            CvSource outputStream = CameraServer.getInstance().putVideo("Switcher", streamResWidth, streamResHeight);
             
             // create a 2d array to hold the captured image
             Mat image = new Mat();
@@ -276,8 +281,8 @@ public class SwitchableCameraServer
 		            			//set properties for each camera
 				                cvSink0.setEnabled(true);
 			                	cam0.setFPS(fps);
-			               		cam0.setResolution(320, 240);
-			               		cam0.setExposureManual(exposure);
+			               		cam0.setResolution(cameraResWidth, cameraResHeight);
+			               		cam0.setExposureManual(cam0exposure);
 			               		_previousCameraName = _cameraName;
 			               		
 			               		System.out.println("Camera Swapped to: " + _cameraName);
@@ -321,7 +326,7 @@ public class SwitchableCameraServer
 		            			//define properties for camera 1
 				                cvSink1.setEnabled(true);
 			                	cam1.setFPS(fps);
-			                	cam1.setResolution(320, 240);			      
+			                	cam1.setResolution(cameraResWidth, cameraResHeight);			      
 			                	cam1.setExposureManual(exposure);
 			               		_previousCameraName = _cameraName;
 			               		
@@ -365,7 +370,7 @@ public class SwitchableCameraServer
 		            			//define properties for camera 2
 				                cvSink2.setEnabled(true);
 			                	cam2.setFPS(fps);
-			                	cam2.setResolution(320, 240);
+			                	cam2.setResolution(cameraResWidth, cameraResHeight);
 			                	cam2.setExposureManual(exposure);
 			               		_previousCameraName = _cameraName;
 			               		
@@ -409,7 +414,7 @@ public class SwitchableCameraServer
 		            			//define properties for camera 3
 				                cvSink3.setEnabled(true);
 			                	cam3.setFPS(fps);
-			                	cam3.setResolution(320, 240);
+			                	cam3.setResolution(cameraResWidth, cameraResHeight);
 			                	cam3.setExposureManual(exposure);
 			               		_previousCameraName = _cameraName;
 			               		
