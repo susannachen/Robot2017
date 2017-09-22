@@ -154,6 +154,12 @@ public class Vector2d implements Interpolable<Vector2d>
 		return this.rotate(_angleDeg * degreesToRadians);
 	}
     
+	// return complex conjugate
+	public Vector2d conj()
+	{
+		return new Vector2d(x, -y);
+	}
+	
 
     // linearly interpolate between this (for u=0) and that (for u=1)
     @Override

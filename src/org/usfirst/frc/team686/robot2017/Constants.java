@@ -80,7 +80,7 @@ public class Constants extends ConstantsBase
     public static double kPointTurnCompletionTolerance = 1.0 * (Math.PI/180.0); 
     
     // Path following constants
-    public static double kPathFollowingMaxVel    = 60.0; // inches/sec  		
+    public static double kPathFollowingMaxVel    = 80.0; // inches/sec  		
     public static double kPathFollowingMaxAccel  = 48.0; // inches/sec^2	
     public static double kPathFollowingLookahead = 24.0; // inches
     public static double kPathFollowingCompletionTolerance = 1.0; 

@@ -23,8 +23,8 @@ public class FieldDimensionsBlue extends FieldDimensions
 	
 	// Robot Starting Positions
     public static Pose kCenterStartPosition = new Pose(Constants.kCenterToRearBumper, 0, 0);
-    public static Pose kBoilerStartPosition = new Pose(Constants.kCenterToRearBumper, +distYOriginToEdgeofDSWallOnBoilerSide, 0);	// same as red, but negate Y
-    public static Pose kOtherStartPosition  = new Pose(Constants.kCenterToRearBumper, -distYOriginToEdgeofDSWallOnOtherSide, 0);	// same as red, but negate Y
+    public static Pose kBoilerStartPosition = new Pose(Constants.kCenterToRearBumper, +distYOriginToEdgeofDSWallOnBoilerSide - Constants.kCenterToSideBumper, 0);	// same as red, but negate Y
+    public static Pose kOtherStartPosition  = new Pose(Constants.kCenterToRearBumper, -distYOriginToEdgeofDSWallOnOtherSide  + Constants.kCenterToSideBumper, 0);	// same as red, but negate Y
 
     // Peg Locations
 	public static double kCenterPegHeading =  180 * Math.PI/180;

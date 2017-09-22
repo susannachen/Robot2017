@@ -35,7 +35,8 @@ public class SmartDashboardInteractions
         //DRIVE_STRAIGHT("Drive Straight"),
         STEAMWORKS_CENTER("Steamworks Center"),
         STEAMWORKS_BOILER("Steamworks Boiler"),
-        STEAMWORKS_OTHER("Steamworks Other");
+        STEAMWORKS_OTHER("Steamworks Other"),
+    	STEAMWORKS_BOILER_HOPPER("Steamworks Boiler Hopper");
     	
         public final String name;
 
@@ -129,6 +130,9 @@ public class SmartDashboardInteractions
 			
     	case STEAMWORKS_OTHER:
 			return new StartToOtherPegToOtherSideMode(isBlue, fieldDimensions);
+			
+    	case STEAMWORKS_BOILER_HOPPER:
+			return new StartToHopperToBoilerMode(isBlue, fieldDimensions);
 			
 		default:
             System.out.println("ERROR: unexpected auto mode: " + selMode);
