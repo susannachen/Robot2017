@@ -7,8 +7,8 @@ public class FieldDimensionsRed extends FieldDimensions
 {
 	// Field Measurements
 	public static double distXWallToAirship 		= 114.5;		// driver station wall to wall behind center peg 
-	public static double distXWallToBoilerHopper	= 119.875;		// driver station wall to center of hopper on boiler side
-	public static double distXWallToOtherHopper	= 207.125;		// driver station wall to center of hopper on boiler side
+	public static double distXWallToBoilerHopper	= 120.0;		// driver station wall to center of hopper on boiler side
+	public static double distXWallToOtherHopper		= 207.0;		// driver station wall to center of hopper on boiler side
 	
 	public static double distYOriginToEdgeofDSWallOnBoilerSide 	= 124.875;	// origin to edge of driver station wall closest to boiler 
 	public static double distYOriginToEdgeofDSWallOnOtherSide 	= 124.875;	// origin to edge of driver station wall opposite the boiler 
@@ -39,8 +39,8 @@ public class FieldDimensionsRed extends FieldDimensions
 	Pose kBoilerPose = new Pose(distXOriginToCenterOfBoiler, -distYOriginToCenterOfBoiler,    kBoilerHeading);	
 	
 	// Hopper Locations
-	double kBoilerHopperHeading =  90 * Math.PI/180;
-	double kOtherHopperHeading  = -90 * Math.PI/180;
+	double kBoilerHopperHeading =  30 * Math.PI/180;
+	double kOtherHopperHeading  = -30 * Math.PI/180;
 	Pose kBoilerHopperPose = new Pose(distXWallToBoilerHopper, -distYOriginToBoilerField,    kBoilerHopperHeading);
 	Pose kOtherHopperPose  = new Pose(distXWallToOtherHopper,  +distYOriginToOtherFieldWall, kOtherHopperHeading);
 

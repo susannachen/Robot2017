@@ -39,8 +39,8 @@ public class FieldDimensionsBlue extends FieldDimensions
 	public static Pose kBoilerPose = new Pose(distXOriginToCenterOfBoiler, +distYOriginToCenterOfBoiler,    kBoilerHeading);		// same as red, but negate Y
 	
 	// Hopper Locations
-	public static double kBoilerHopperHeading = -90 * Math.PI/180;	// negative of red
-	public static double kOtherHopperHeading  = +90 * Math.PI/180;	// negative of red
+	public static double kBoilerHopperHeading = -30 * Math.PI/180;	// negative of red
+	public static double kOtherHopperHeading  = +30 * Math.PI/180;	// negative of red
 	public static Pose kBoilerHopperPose = new Pose(distXWallToBoilerHopper, +distYOriginToBoilerField,    kBoilerHopperHeading);	// same as red, but negate Y
 	public static Pose kOtherHopperPose  = new Pose(distXWallToOtherHopper,  -distYOriginToOtherFieldWall, kOtherHopperHeading);	// same as red, but negate Y
 

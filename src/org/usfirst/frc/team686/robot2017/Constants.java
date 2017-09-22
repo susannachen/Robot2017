@@ -22,8 +22,6 @@ public class Constants extends ConstantsBase
     public static double kCenterToFrontBumper = 19.0;	// position of front bumper with respect to robot center of rotation
     public static double kCenterToRearBumper = 19.5;	// position of rear bumper with respect to robot center of rotation
     public static double kCenterToSideBumper = 17.5;	// position of side bumper with respect to robot center of rotation
-    // Front Bumper
-    public static double kFrontBumperX = 21;	// position of front bumper with respect to robot center of rotation
     
     // Wheels
     public static double kDriveWheelCircumInches = 13.229;//13.250;
