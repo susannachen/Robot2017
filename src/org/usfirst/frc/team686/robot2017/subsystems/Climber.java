@@ -14,11 +14,8 @@ public class Climber extends Subsystem {
 	private CANTalon climbMotor;
 	
 	public Climber(){
-		super();
-		
 		climbMotor = new CANTalon(Constants.kClimbMotorTalonId);  
 		climbMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-
 	} 
 	
 	

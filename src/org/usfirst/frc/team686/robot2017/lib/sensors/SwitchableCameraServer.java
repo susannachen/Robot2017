@@ -49,6 +49,9 @@ public class SwitchableCameraServer
 	
 	private CircularList<String> _camList;
 
+	private int exposure = 10;
+	private int fps = 15;
+	
 	//============================================================================================
 	// constructors follow
 	//============================================================================================
@@ -272,9 +275,9 @@ public class SwitchableCameraServer
 		            			
 		            			//set properties for each camera
 				                cvSink0.setEnabled(true);
-			                	cam0.setFPS(60);
+			                	cam0.setFPS(fps);
 			               		cam0.setResolution(320, 240);
-			               		cam0.setExposureManual(36);
+			               		cam0.setExposureManual(exposure);
 			               		_previousCameraName = _cameraName;
 			               		
 			               		System.out.println("Camera Swapped to: " + _cameraName);
@@ -317,9 +320,9 @@ public class SwitchableCameraServer
 		            			
 		            			//define properties for camera 1
 				                cvSink1.setEnabled(true);
-			                	cam1.setFPS(60);
+			                	cam1.setFPS(fps);
 			                	cam1.setResolution(320, 240);			      
-			                	cam1.setExposureManual(36);
+			                	cam1.setExposureManual(exposure);
 			               		_previousCameraName = _cameraName;
 			               		
 			               		System.out.println("Camera Swapped to: " + _cameraName);
@@ -361,9 +364,9 @@ public class SwitchableCameraServer
 		            			
 		            			//define properties for camera 2
 				                cvSink2.setEnabled(true);
-			                	cam2.setFPS(60);
+			                	cam2.setFPS(fps);
 			                	cam2.setResolution(320, 240);
-			                	cam2.setExposureManual(36);
+			                	cam2.setExposureManual(exposure);
 			               		_previousCameraName = _cameraName;
 			               		
 			               		System.out.println("Camera Swapped to: " + _cameraName);
@@ -405,9 +408,9 @@ public class SwitchableCameraServer
 		            			
 		            			//define properties for camera 3
 				                cvSink3.setEnabled(true);
-			                	cam3.setFPS(60);
+			                	cam3.setFPS(fps);
 			                	cam3.setResolution(320, 240);
-			                	cam3.setExposureManual(36);
+			                	cam3.setExposureManual(exposure);
 			               		_previousCameraName = _cameraName;
 			               		
 			               		System.out.println("Camera Swapped to: " + _cameraName);

@@ -93,10 +93,11 @@ public class SmartDashboardInteractions
     {
     	AutoModeOption selMode = (AutoModeOption)autoModeChooser.getSelected(); 
 
-        FieldDimensions fieldDimensions = new FieldDimensionsRed();
         DriverStation.Alliance alliance = DriverStation.getInstance().getAlliance();
-        if (alliance == DriverStation.Alliance.Blue)
-        {
+        boolean isBlue = (alliance == DriverStation.Alliance.Blue);
+        
+        FieldDimensions fieldDimensions = new FieldDimensionsRed();
+        if (isBlue) {
         	fieldDimensions = new FieldDimensionsBlue();
         }
 
@@ -121,13 +122,13 @@ public class SmartDashboardInteractions
 //			return new DriveStraightMode(0, false);
 			
     	case STEAMWORKS_CENTER:
-			return new StartToCenterPegToBoilerMode(fieldDimensions);
+			return new StartToCenterPegToBoilerMode(isBlue, fieldDimensions);
 			
     	case STEAMWORKS_BOILER:
-			return new StartToBoilerPegToBoilerMode(fieldDimensions);
+			return new StartToBoilerPegToBoilerMode(isBlue, fieldDimensions);
 			
     	case STEAMWORKS_OTHER:
-			return new StartToOtherPegToOtherSideMode(fieldDimensions);
+			return new StartToOtherPegToOtherSideMode(isBlue, fieldDimensions);
 			
 		default:
             System.out.println("ERROR: unexpected auto mode: " + selMode);

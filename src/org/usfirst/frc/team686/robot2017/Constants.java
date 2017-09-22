@@ -133,8 +133,8 @@ public class Constants extends ConstantsBase
 
 	
 	//Solenoid ports for pneumatics
-	public static int kGearShiftSolenoidForwardChannel = 1;
-	public static int kGearShiftSolenoidReverseChannel = 0;	
+	public static int kGearShiftSolenoidForwardChannel = 0;
+	public static int kGearShiftSolenoidReverseChannel = 1;	
 	public static int kGearPickupSolenoidForwardChannel = 2;
 	public static int kGearPickupSolenoidReverseChannel = 3;
 	public static int kBallTraySolenoidForwardChannel = 4;

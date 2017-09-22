@@ -4,8 +4,10 @@ import org.usfirst.frc.team686.robot2017.lib.util.Path;
 import org.usfirst.frc.team686.robot2017.lib.util.PathSegment;
 import org.usfirst.frc.team686.robot2017.lib.util.Pose;
 import org.usfirst.frc.team686.robot2017.lib.util.Path.Waypoint;
-
 import org.usfirst.frc.team686.robot2017.lib.util.Vector2d;
+
+import java.util.Arrays;
+
 import org.usfirst.frc.team686.robot2017.Constants;
 import org.usfirst.frc.team686.robot2017.auto.AutoModeBase;
 import org.usfirst.frc.team686.robot2017.auto.AutoModeEndedException;
@@ -16,6 +18,7 @@ import org.usfirst.frc.team686.robot2017.auto.actions.*;
 public class StartToCenterPegToBoilerMode extends AutoModeBase 
 {
 	// initialPose in inherited from AutoModeBase
+	boolean isBlue;
 	FieldDimensions fieldDimensions;
 	Path pathToPeg;
 	Path pathBackupFromPeg;
@@ -23,11 +26,10 @@ public class StartToCenterPegToBoilerMode extends AutoModeBase
 	Path pathToBoiler;
 	
 	
-    public StartToCenterPegToBoilerMode(FieldDimensions _fieldDimensions) 
+    public StartToCenterPegToBoilerMode(boolean _isBlue, FieldDimensions _fieldDimensions) 
     {
-    	
+    	isBlue = _isBlue;
     	fieldDimensions = _fieldDimensions;
-		initialPose = fieldDimensions.getCenterStartPose();
     }
     
     private void init()
@@ -58,7 +60,11 @@ public class StartToCenterPegToBoilerMode extends AutoModeBase
     	v = Vector2d.magnitudeAngle(distanceToTurnFromPeg, pegHeading);
     	Vector2d backupTurn = pegPosition.add(v);
     	double distanceToBackUpFromTurn = 24;
-    	v = Vector2d.magnitudeAngle(distanceToBackUpFromTurn, pegHeading - Math.PI/2);	// turn left while backing up
+    	double backupDirection = -Math.PI/2;		// Red: turn left while backing up
+    	if (isBlue) {
+    		backupDirection = +Math.PI/2;			// Blue: turn right while backing up
+    	}
+    	v = Vector2d.magnitudeAngle(distanceToBackUpFromTurn, pegHeading + backupDirection);
     	Vector2d backupPosition = backupTurn.add(v);
     	
     	// where to turn towards boiler
@@ -108,7 +114,7 @@ public class StartToCenterPegToBoilerMode extends AutoModeBase
     @Override
     protected void routine() throws AutoModeEndedException 
     {
-    	System.out.println("Starting StartToCenterGear");
+    	System.out.println("Starting StartToCenterPegToBoilerMode");
 
     	 
     	init();																// generate paths
@@ -118,9 +124,11 @@ public class StartToCenterPegToBoilerMode extends AutoModeBase
     	
    		runAction( new PathFollowerWithVisionAction( pathBackupFromPeg ) );	// backup from peg
    		runAction( new PathFollowerWithVisionAction( pathToOpenTray ) );    // drive to boiler
-    	runAction( new OpenBallTrayAction() );    							// open ball tray
-   		runAction( new PathFollowerWithVisionAction( pathToBoiler ) );    	// finish drive to boiler
 
+        runAction(new ParallelAction(Arrays.asList(
+        		new OpenBallTrayAction(),									// open ball tray, while 
+        		new PathFollowerWithVisionAction(pathToBoiler) )));			// finishing drive to boiler
+   		
     	// finish here, with ball tray left open in front of boiler
     	// ball tray will close when teleop starts (if driver isn't pushing button)
     	

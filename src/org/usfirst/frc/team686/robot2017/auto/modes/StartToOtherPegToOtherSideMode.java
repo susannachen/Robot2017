@@ -3,9 +3,13 @@ package org.usfirst.frc.team686.robot2017.auto.modes;
 import org.usfirst.frc.team686.robot2017.lib.util.Path;
 import org.usfirst.frc.team686.robot2017.lib.util.PathSegment;
 import org.usfirst.frc.team686.robot2017.lib.util.Pose;
+import org.usfirst.frc.team686.robot2017.lib.util.Util;
 import org.usfirst.frc.team686.robot2017.lib.util.Path.Waypoint;
 
 import org.usfirst.frc.team686.robot2017.lib.util.Vector2d;
+
+import java.util.Optional;
+
 import org.usfirst.frc.team686.robot2017.Constants;
 import org.usfirst.frc.team686.robot2017.auto.AutoModeBase;
 import org.usfirst.frc.team686.robot2017.auto.AutoModeEndedException;
@@ -16,18 +20,18 @@ import org.usfirst.frc.team686.robot2017.auto.actions.*;
 public class StartToOtherPegToOtherSideMode extends AutoModeBase 
 {
 	// initialPose in inherited from AutoModeBase
+	boolean isBlue;
 	FieldDimensions fieldDimensions;
 	Path pathToPeg;
 	Path pathBackupFromPeg;
-	Path pathToOpenTray;
-	Path pathToBoiler;
+	Path pathToFarSide;
 	
 	
-    public StartToOtherPegToOtherSideMode(FieldDimensions _fieldDimensions) 
+    public StartToOtherPegToOtherSideMode(boolean _isBlue, FieldDimensions _fieldDimensions) 
     {
-    	
+    	isBlue = _isBlue;
     	fieldDimensions = _fieldDimensions;
-		initialPose = fieldDimensions.getCenterStartPose();
+		initialPose = fieldDimensions.getOtherStartPose();
     }
     
     private void init()
@@ -35,134 +39,71 @@ public class StartToOtherPegToOtherSideMode extends AutoModeBase
     	PathSegment.Options pathOptions   = new PathSegment.Options(Constants.kPathFollowingMaxVel, Constants.kPathFollowingMaxAccel, Constants.kPathFollowingLookahead, false);
     	PathSegment.Options visionOptions = new PathSegment.Options(Constants.kVisionMaxVel,        Constants.kVisionMaxAccel,        Constants.kPathFollowingLookahead, true);
 
-// TODO: UPDATE FOR BOILER SIDE.  THIS IS THE CENTER PEG ROUTINE    	
-
 		// get positions, based on red/blue alliance
-    	Pose initialPose = fieldDimensions.getCenterStartPose();
+		Pose initialPose = fieldDimensions.getOtherStartPose();
 		Vector2d initialPosition = initialPose.getPosition();
 		double initialHeading = initialPose.getHeading();
-
-		// get position of peg and boiler, based on red/blue alliance
-		Pose pegPose = fieldDimensions.getCenterPegBasePose();
+		        
+		Pose pegPose = fieldDimensions.getOtherPegBasePose();
 		Vector2d pegPosition = pegPose.getPosition();
 		double pegHeading = pegPose.getHeading();
-		Pose boilerPose = fieldDimensions.getBoilerPose();
-		Vector2d boilerPosition = boilerPose.getPosition();
-		double boilerHeading = boilerPose.getHeading();
+		Pose farSidePose = fieldDimensions.getFarSideOfFieldPose();
+		Vector2d farSidePosition = farSidePose.getPosition();
+		double farSideHeading = farSidePose.getHeading();
 		
-    	// where to stop to score gear
-    	Vector2d v = Vector2d.magnitudeAngle(FieldDimensions.getDistanceToStopFromPeg(), pegHeading);
-    	Vector2d pegStopPosition = pegPosition.add(v);
-
-    	// where to backup to after scoring gear
-    	double distanceToTurnFromPeg = 60;
-    	v = Vector2d.magnitudeAngle(distanceToTurnFromPeg, pegHeading);
-    	Vector2d backupTurn = pegPosition.add(v);
-    	double distanceToBackUpFromTurn = 24;
-    	v = Vector2d.magnitudeAngle(distanceToBackUpFromTurn, pegHeading - Math.PI/2);	// turn left while backing up
-    	Vector2d backupPosition = backupTurn.add(v);
-    	
-    	// where to turn towards boiler
-    	double distanceToTurnFromBoiler = 50;
-    	v = Vector2d.magnitudeAngle(distanceToTurnFromBoiler, boilerHeading);
-    	Vector2d boilerTurnPosition = boilerPosition.add(v);
-
-    	// where to open ball tray
-    	double distanceToOpenTrayFromBoiler = 4 + Constants.kCenterToFrontBumper;
-    	v = Vector2d.magnitudeAngle(distanceToOpenTrayFromBoiler, boilerHeading);
-    	Vector2d boilerOpenPosition = boilerPosition.add(v);
-
-    	// where to stop in front of boiler
-    	double distanceToStopFromBoiler = 2 + Constants.kCenterToFrontBumper;
-    	v = Vector2d.magnitudeAngle(distanceToStopFromBoiler, boilerHeading);
-    	Vector2d boilerStopPosition = boilerPosition.add(v);
-
-
-    	
-    	// define path to peg
-    	pathToPeg = new Path();
-    	pathToPeg.add(new Waypoint(initialPosition, 		pathOptions));
-    	pathToPeg.add(new Waypoint(pegStopPosition, 		visionOptions));	// enable vision
 		
+		// where to stop to score gear
+		Vector2d v = Vector2d.magnitudeAngle(FieldDimensions.getDistanceToStopFromPeg(), pegHeading);
+		Vector2d pegStopPosition = pegPosition.add(v);
+
+		// where to turn towards peg
+		Optional<Vector2d> intersection = Util.getLineIntersection(initialPose, pegPose);
+		Vector2d pegTurnPosition;
+		if (intersection.isPresent())
+			pegTurnPosition = intersection.get();
+		else
+			pegTurnPosition = pegStopPosition;
+		
+		// where to backup to after scoring gear
+		double distanceToTurnFromPeg = 60;
+		v = Vector2d.magnitudeAngle(distanceToTurnFromPeg, pegHeading);
+		Vector2d backupTurn = pegPosition.add(v);
+		double distanceToBackUpFromTurn = 24;
+    	double backupDirection = +Math.PI/2;		// Red: turn right while backing up
+    	if (isBlue) {
+    		backupDirection = -Math.PI/2;			// Blue: turn left while backing up
+    	}
+    	v = Vector2d.magnitudeAngle(distanceToBackUpFromTurn, pegHeading + backupDirection);
+		Vector2d backupPosition = backupTurn.add(v);
 				
-    	// backup away from peg, turn front towards boiler
-    	pathBackupFromPeg = new Path();
-    	pathBackupFromPeg.add(new Waypoint(pegStopPosition, pathOptions));
-    	pathBackupFromPeg.add(new Waypoint(backupTurn, 		pathOptions));
-    	pathBackupFromPeg.add(new Waypoint(backupPosition, 	pathOptions));
-    	pathBackupFromPeg.setReverseDirection();								// drive in reverse to backup
-
-    	// define path to boiler (just before, where we open the tray)
-    	pathToOpenTray = new Path();
-    	pathToOpenTray.add(new Waypoint(backupPosition, 	pathOptions));
-	   	pathToOpenTray.add(new Waypoint(boilerTurnPosition, pathOptions));
-	   	pathToOpenTray.add(new Waypoint(boilerOpenPosition, pathOptions));
-
 		
-    	// define path to boiler 
-	   	pathToBoiler = new Path();
-	   	pathToBoiler.add(new Waypoint(boilerOpenPosition, 	pathOptions));
-	   	pathToBoiler.add(new Waypoint(boilerStopPosition, 	pathOptions));
-	   	
-/*
-% get positions, based on red/blue alliance
-initialPose = fieldDimensions.getBoilerStartPose();
-initialPosition = initialPose.getPosition();
-initialHeading = initialPose.getHeading();
-        
-pegPose = fieldDimensions.getOtherPegBasePose();
-pegPosition = pegPose.getPosition();
-pegHeading = pegPose.getHeading();
-farSidePose = fieldDimensions.kFarSideOfFieldPose();
-farSidePosition = farSidePose.getPosition();
-farSideHeading = farSidePose.getHeading();
+		
+		// define path to peg
+		pathToPeg = new Path();
+		pathToPeg.add(new Waypoint(initialPosition, 	pathOptions));
+		pathToPeg.add(new Waypoint(pegTurnPosition,     visionOptions));	// enable vision
+		pathToPeg.add(new Waypoint(pegStopPosition, 	visionOptions));	// enable vision
+		
+		
+		// backup away from peg, turn front towards boiler
+		pathBackupFromPeg = new Path();
+		pathBackupFromPeg.add(new Waypoint(pegStopPosition, pathOptions));
+		pathBackupFromPeg.add(new Waypoint(backupTurn, 		pathOptions));
+		pathBackupFromPeg.add(new Waypoint(backupPosition, 	pathOptions));
+		pathBackupFromPeg.setReverseDirection();									// drive in reverse to backup
+		
+		// define path to far side 
+		pathToFarSide = new Path();
+		pathToFarSide.add(new Waypoint(backupPosition, 	pathOptions));
+		pathToFarSide.add(new Waypoint(farSidePosition, 	pathOptions));
 
-% where to turn towards peg
-pegTurnPosition = Util.getLineIntersection(initialPose, pegPose)
-
-% where to stop to score gear
-v = Vector2d.magnitudeAngle(FieldDimensions.getDistanceToStopFromPeg(), pegPose.getHeading());
-pegStopPosition = pegPosition.add(v);
-
-% where to backup to after scoring gear
-distanceToTurnFromPeg = 60;
-v = Vector2d.magnitudeAngle(distanceToTurnFromPeg, pegPose.getHeading());
-backupTurn = pegPosition.add(v);
-distanceToBackUpFromTurn = 24;
-v = Vector2d.magnitudeAngle(distanceToBackUpFromTurn, pegPose.getHeading() + pi/2);	% turn right while backing up
-backupPosition = backupTurn.add(v);
-
-
-
-
-% define path to peg
-pathToPeg = Path();
-pathToPeg.add(Waypoint(initialPose.getPosition(), 		pathOptions));
-pathToPeg.add(Waypoint(pegTurnPosition,                 visionOptions));	% enable vision
-pathToPeg.add(Waypoint(pegStopPosition, 	visionOptions));	% enable vision
-
-
-% backup away from peg, turn front towards boiler
-pathBackupFromPeg = Path();
-pathBackupFromPeg.add(Waypoint(pegStopPosition, 	pathOptions));
-pathBackupFromPeg.add(Waypoint(backupTurn, 		pathOptions));
-pathBackupFromPeg.add(Waypoint(backupPosition, 	pathOptions));
-pathBackupFromPeg.setReverseDirection();													% drive in reverse to backup
-
-
-% define path to far side 
-pathToFarSide = Path();
-pathToFarSide.add(Waypoint(backupPosition, 	pathOptions));
-pathToFarSide.add(Waypoint(farSidePosition, 	pathOptions));
- 	   	
- */
 	}
 
     // called by AutoModeExecuter.start() --> AutoModeBase.run()
     @Override
     protected void routine() throws AutoModeEndedException 
     {
-    	System.out.println("Starting StartToCenterGear");
+    	System.out.println("Starting StartToOtherPegToOtherSideMode");
 
     	 
     	init();																// generate paths
@@ -171,13 +112,8 @@ pathToFarSide.add(Waypoint(farSidePosition, 	pathOptions));
     	runAction( new ScoreGearAction() );	    							// score gear
     	
    		runAction( new PathFollowerWithVisionAction( pathBackupFromPeg ) );	// backup from peg
-   		runAction( new PathFollowerWithVisionAction( pathToOpenTray ) );    // drive to boiler
-    	runAction( new OpenBallTrayAction() );    							// open ball tray
-   		runAction( new PathFollowerWithVisionAction( pathToBoiler ) );    	// finish drive to boiler
-
-    	// finish here, with ball tray left open in front of boiler
-    	// ball tray will close when teleop starts (if driver isn't pushing button)
-    	
+    	runAction( new PathFollowerWithVisionAction( pathToFarSide ) ); 	// drive to far side
+   	
     }
     
 }
